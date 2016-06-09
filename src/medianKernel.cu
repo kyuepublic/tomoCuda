@@ -53,53 +53,49 @@ __global__ void kernel2(int nx, int ny, float *d_out, float *d_in)
     int x = blockIdx.x * blockDim.x + threadIdx.x;
     int y = blockIdx.y * blockDim.y + threadIdx.y;
 
+    int winSize = 2;
+    float v[4] = {0};
 
+    int vecSize = winSize*winSize;
+    int loffset = winSize/2;
+    int roffset = winSize/2 - 1;
+    int toffset = loffset+roffset;
 
-        int winSize = 2;
-        float v[4] = {0};
-
-        int vecSize = winSize*winSize;
-        int loffset = winSize/2;
-        int roffset = winSize/2 - 1;
-        int toffset = loffset+roffset;
-
-        x = x + loffset;
-        y = y + loffset;
+    x = x + loffset;
+    y = y + loffset;
 
 
 
-        int i = 0;
+    int i = 0;
 
 
-        for (int xx = x - loffset; xx <= x + roffset; xx++)
+    for (int xx = x - loffset; xx <= x + roffset; xx++)
+    {
+        for (int yy = y - loffset; yy <= y + roffset; yy++)
         {
-            for (int yy = y - loffset; yy <= y + roffset; yy++)
-            {
-                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset)
-                 {// boundaries
-                    v[i++] = d_in[yy*(nx+toffset) + xx];
-                 }
+            if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset)
+             {// boundaries
+                v[i++] = d_in[yy*(nx+toffset) + xx];
+             }
+        }
+    }
+
+    // bubble-sort
+    for (int i = 0; i < vecSize; i++)
+    {
+        for (int j = i + 1; j < vecSize; j++)
+        {
+            if (v[i] > v[j])
+            { /* swap? */
+                float tmp = v[i];
+                v[i] = v[j];
+                v[j] = tmp;
             }
         }
+    }
 
-        // bubble-sort
-        for (int i = 0; i < vecSize; i++)
-        {
-            for (int j = i + 1; j < vecSize; j++)
-            {
-                if (v[i] > v[j])
-                { /* swap? */
-                    float tmp = v[i];
-                    v[i] = v[j];
-                    v[j] = tmp;
-                }
-            }
-        }
-
-        // pick the middle one
-        d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2];
-
-
+    // pick the middle one
+    d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2];
 
 }
 
@@ -304,47 +300,369 @@ __global__ void kernel15(int nx, int ny, float *d_out, float *d_in)
     int x = blockIdx.x * blockDim.x + threadIdx.x;
     int y = blockIdx.y * blockDim.y + threadIdx.y;
 
-    int winSize = 15;
-    float v[225] = {0};
-
-    int vecSize = winSize*winSize;
-    int loffset = winSize/2;
-    int roffset = (winSize-1)/2;
-    int toffset = loffset+roffset;
-
-    x = x + loffset;
-    y = y + loffset;
-
-    int i = 0;
-
-    for (int xx = x - loffset; xx <= x + roffset; xx++)
+    if ((x < nx) && (y < ny))
     {
-        for (int yy = y - loffset; yy <= y + roffset; yy++)
-        {
-            if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+        int winSize = 15;
+        float v[225] = {0};
 
-                v[i++] = d_in[yy*(nx+toffset) + xx];
-        }
-    }
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
 
-    // bubble-sort
-    for (int i = 0; i < vecSize; i++)
-    {
-        for (int j = i + 1; j < vecSize; j++)
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+
+        for (int xx = x - loffset; xx <= x + roffset; xx++)
         {
-            if (v[i] > v[j])
-            { /* swap? */
-                float tmp = v[i];
-                v[i] = v[j];
-                v[j] = tmp;
+            for (int yy = y - loffset; yy <= y + roffset; yy++)
+            {
+                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+
+                    v[i++] = d_in[yy*(nx+toffset) + xx];
             }
         }
+
+        // bubble-sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                { /* swap? */
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2];
     }
 
-    // pick the middle one
-    d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2];
+}
+
+__global__ void kernel3D2(int nx, int ny, int nz,  float *d_out, float *d_in)
+{
+   // nx ny nz map to offset in the 1d array
+    unsigned x = blockIdx.x*blockDim.x + threadIdx.x;
+    unsigned y = blockIdx.y*blockDim.y + threadIdx.y;
+    unsigned z = blockIdx.z*blockDim.z + threadIdx.z;
+
+    if ((x < nx) && (y < ny) && (z < nz))
+    {
+        int winSize = 2;
+        float v[4] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+        int newnx=toffset+nx;
+        int newny=toffset+ny;
+
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+
+        for (int xx = x - loffset; xx <= x + roffset; xx++)
+        {
+            for (int yy = y - loffset; yy <= y + roffset; yy++)
+            {
+//                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+
+                    v[i++] = d_in[xx+yy*newnx+z*newnx*newny];
+            }
+        }
+
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                { /* swap? */
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        d_out[x-loffset + (y-loffset)*nx + z*nx*ny ] = v[vecSize/2];
+
+    }
 
 }
+
+__global__ void kernel3D15(int nx, int ny, int nz,  float *d_out, float *d_in)
+{
+   // nx ny nz map to offset in the 1d array
+    unsigned x = blockIdx.x*blockDim.x + threadIdx.x;
+    unsigned y = blockIdx.y*blockDim.y + threadIdx.y;
+    unsigned z = blockIdx.z*blockDim.z + threadIdx.z;
+
+//    int offset = x+y* nx + ny * nx * z;
+    if ((x < nx) && (y < ny) && (z < nz))
+    {
+        // initial the window size, the local vector size
+        int winSize = 15;
+        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2; // the left and top offset
+        int roffset = (winSize-1)/2; // the right and bottom offset
+        int toffset = loffset+roffset; // the overall offset
+
+// The new x' y' is the plus offset
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+        // Put the neighbour pixel into the local memory for the later bubble sort
+        for (int xx = x - loffset; xx <= x + roffset; xx++)
+        {
+            for (int yy = y - loffset; yy <= y + roffset; yy++)
+            {
+                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+                    // find the read address of the x y z pixel
+                    v[i++] = d_in[xx+yy*(nx+toffset)+z*(nx+toffset)*(ny+toffset)];
+            }
+        }
+
+        // do the bubble sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                {   // bubble sort
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        //    printf("the x is %d, y is %d, z is %d, result is %f \n", x, y, z, v[vecSize/2] );
+        // put the final result value to the output array
+        d_out[x-loffset + (y-loffset)*nx + z*nx*ny ] = v[vecSize/2];
+
+    }
+
+}
+
+
+__global__ void kernelLool3D15(int nx, int ny, int nz,  float *d_out, float *d_in)
+{
+   // nx ny nz map to offset in the 1d array
+    unsigned x = blockIdx.x*blockDim.x + threadIdx.x;
+    unsigned y = blockIdx.y*blockDim.y + threadIdx.y;
+//    unsigned z = blockIdx.z*blockDim.z + threadIdx.z;
+
+//    int offset = x+y* nx + ny * nx * z;
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 15;
+        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+
+
+
+        for(int z = 0; z < nz; z++)
+        {
+            i = 0;
+
+            for (int xx = x - loffset; xx <= x + roffset; xx++)
+            {
+                for (int yy = y - loffset; yy <= y + roffset; yy++)
+                {
+
+                    v[i++] = d_in[xx+yy*(nx+toffset)+z*(nx+toffset)*(ny+toffset)];
+                }
+            }
+
+            for (int i = 0; i < vecSize; i++)
+            {
+                for (int j = i + 1; j < vecSize; j++)
+                {
+                    if (v[i] > v[j])
+                    { /* swap? */
+                        float tmp = v[i];
+                        v[i] = v[j];
+                        v[j] = tmp;
+                    }
+                }
+            }
+
+//            printf("the x is %d, y is %d, z is %d, result is %f \n", x, y, z, v[vecSize/2] );
+
+            d_out[x-loffset + (y-loffset)*nx + z*nx*ny ] = v[vecSize/2];
+
+        }
+
+    }
+
+}
+
+
+__global__ void reomveOutliner3D2(int nx, int ny, int nz, int diff, float *d_out, float *d_in)
+{
+   // nx ny nz map to offset in the 1d array
+    unsigned x = blockIdx.x*blockDim.x + threadIdx.x;
+    unsigned y = blockIdx.y*blockDim.y + threadIdx.y;
+    unsigned z = blockIdx.z*blockDim.z + threadIdx.z;
+
+//    int offset = x+y* nx + ny * nx * z;
+    if ((x < nx) && (y < ny) && (z < nz))
+    {
+        int winSize = 2;
+        float v[4] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+        int newnx=toffset+nx;
+        int newny=toffset+ny;
+
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+
+        for (int xx = x - loffset; xx <= x + roffset; xx++)
+        {
+            for (int yy = y - loffset; yy <= y + roffset; yy++)
+            {
+//                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+
+                    v[i++] = d_in[xx+yy*newnx+z*newnx*newny];
+            }
+        }
+
+        // get the current pixel value
+        // TODO get from local buffer instead of global memory
+
+        float currentPixel = d_in[x+y*newnx+z*newnx*newny];
+
+
+
+        // More optimize for the bubble sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                { /* swap? */
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        // TODO more optimize for this part
+        int mask = 0;
+        float realdiff = currentPixel-v[vecSize/2];
+        printf("the x is %d, y is %d, z is %d, current is %f, result is %f \n", x, y, z, currentPixel, v[vecSize/2] );
+
+        if( realdiff >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+
+
+        d_out[x-loffset + (y-loffset)*nx + z*nx*ny ] = v[vecSize/2]*mask+currentPixel*(1-mask);
+
+    }
+
+}
+
+__global__ void reomveOutliner3D15(int nx, int ny, int nz, int diff, float *d_out, float *d_in)
+{
+   // nx ny nz map to offset in the 1d array
+    unsigned x = blockIdx.x*blockDim.x + threadIdx.x;
+    unsigned y = blockIdx.y*blockDim.y + threadIdx.y;
+    unsigned z = blockIdx.z*blockDim.z + threadIdx.z;
+
+//    int offset = x+y* nx + ny * nx * z;
+    if ((x < nx) && (y < ny) && (z < nz))
+    {
+        int winSize = 15;
+        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+        int newnx=toffset+nx;
+        int newny=toffset+ny;
+
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+
+        for (int xx = x - loffset; xx <= x + roffset; xx++)
+        {
+            for (int yy = y - loffset; yy <= y + roffset; yy++)
+            {
+//                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+
+                    v[i++] = d_in[xx+yy*newnx+z*newnx*newny];
+            }
+        }
+
+        // get the current pixel value
+        // TODO get from local buffer instead of global memory
+
+        float currentPixel = d_in[x+y*newnx+z*newnx*newny];
+
+//        printf("the x is %d, y is %d, z is %d, current is %f, result is %f \n", x, y, z, currentPixel, v[vecSize/2] );
+
+        // More optimize for the bubble sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                { /* swap? */
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        // TODO more optimize for this part
+        int mask = 0;
+        if((currentPixel-v[vecSize/2]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+
+
+        d_out[x-loffset + (y-loffset)*nx + z*nx*ny ] = v[vecSize/2]*mask+currentPixel*(1-mask);
+
+    }
+
+}
+
 
 //#define s2(a,b)            { float tmp = a; a = min(a,b); b = max(tmp,b); }
 //#define mn3(a,b,c)         s2(a,b); s2(a,c);

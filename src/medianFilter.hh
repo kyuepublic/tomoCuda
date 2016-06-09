@@ -7,6 +7,7 @@ THis is the class for median filter
 
 #define BLOCK_X  8
 #define BLOCK_Y  8
+#define BLOCK_Z  8
 
 
 
@@ -23,7 +24,11 @@ class medianFilter {
   int outlength;
   int nx;
   int ny;
+  int nz;
   int filterSize;
+
+  int insize;
+  int outsize;
 
 public:
   /*
@@ -35,19 +40,29 @@ public:
        %apply (int* ARGOUT_ARRAY1, int DIM1) {(int* myarray, int length)}
    */
 
-  medianFilter(float* INPLACE_ARRAY1, int nx_, int ny_, int filterSize_); // constructor (copies to GPU)
+  medianFilter(/*float* INPLACE_ARRAY1,*/ int nx_, int ny_, int nz_, int filterSize_); // constructor (copies to GPU)
 
 
   ~medianFilter(); // destructor
 
-  void runFilter(int size); // does operation inplace on the GPU
+  void run2DFilter(int size); // does operation inplace on the GPU
+
+  void run3DFilter(int size); // does operation inplace on the GPU
+
+  void run2DLoopFilter(int size);
+
+  void run3DRemoveOutliner(int size, int diff);
 
   void retreive(); //gets results back from GPU, putting them in the memory that was passed in
   // the constructor
 
   //gets results back from the gpu, putting them in the supplied memory location
-  void retreive_to (float* INPLACE_ARRAY1);
+  void retreive_to(float* array_host_);
 
+  // Set image
+  void setImage(float* array_host_);
+
+  double cpuSecond();
 
 };
 
