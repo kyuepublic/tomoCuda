@@ -382,8 +382,8 @@ def testRemoveoutliner1():
     '''test with random array, 3d cuda kernel for removing outiner'''
     # prjsize is z, imsize is x, y.
 
-    size = 2 # window size for the filter
-    imsize = 2 # image size for the input
+    size = 15 # window size for the filter
+    imsize =10 # image size for the input
 
     prjsize= 1
     diff = 20
