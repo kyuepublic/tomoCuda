@@ -303,9 +303,12 @@ def test5():
     '''test with random array, 2d cuda kernel with a loop inside'''
     # prjsize is z, imsize is x, y.
 
+    # print combined
     size = 15 # window size for the filter
-    imsize = 200 # image size for the input
-    prjsize=3000
+    imsizex =1000 # image size for the input
+    imsizey = 1000
+    prjsize= 1
+    diff = 20
 
 
     # the left and right offset of the image to do the reflect mode
@@ -313,46 +316,33 @@ def test5():
     roffset = (size-1)/2
 
     #create test 3d array, filter size -1 = loffset+roffset
-    combined = np.zeros(shape=(prjsize,imsize+size-1,imsize+size-1), dtype=np.float32)
-    results1 = np.zeros(shape=(prjsize,imsize,imsize), dtype=np.float32)
+    combinedMed = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
+    combined = np.zeros(shape=(prjsize,imsizey+size-1,imsizex+size-1), dtype=np.float32)
+    results1 = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsize, imsize, prjsize, size)
+    filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
 
-    diff1 = 0
 
+
+    # create combined noise matrix 3D
     for step in range (5,5+prjsize):
-
-        im_noise = np.arange( 10, imsize*imsize*step+10, step ).reshape(imsize, imsize)
+        im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
         im_noise = im_noise.astype(np.float32)
-
-        # print im_noise
-
-        start = timeit.default_timer()
-        im_med = ndimage.median_filter(im_noise, size)
-        stop = timeit.default_timer()
-        diff1 += stop - start
-
-        results1[step-5]=im_med
-
-    print("end scipy filter", diff1 )
-
-        # window 2
-        #im_noisecu=np.lib.pad(im_noisecu, ((1, 0),(1,0)), 'symmetric')
-        # window 4
+        combinedMed[step-5]=im_noise
 
 
-    for step in range (5,5+prjsize):
-        im_noise = np.arange( 10, imsize*imsize*step+10, step ).reshape(imsize, imsize)
+    start = timeit.default_timer()
+    # im_med = ndimage.median_filter(im_noise, size)
+    # results1 = tomopy.misc.corr.remove_outlier(combinedMed, diff, size )
+    results1 = tomopy.median_filter(combinedMed,size=size)
+    stop = timeit.default_timer()
+    diff1 = stop - start
 
-        im_noise = im_noise.astype(np.float32)
-        im_noisecu=np.lib.pad(im_noise, ((loffset, roffset),(loffset, roffset)), 'symmetric')
-        combined[step-5]=im_noisecu
+    print("end scipy remove oulier", diff1 )
 
-        # print im_med
 
-        # print results2-im_med
-    # print combined
+    combined = np.lib.pad(combinedMed, ((0,0), (loffset, roffset),(loffset, roffset)), 'symmetric')
 
     im_noisecu = combined.flatten()
     im_noisecu = im_noisecu.astype(np.float32)
@@ -368,7 +358,7 @@ def test5():
 
     stop = timeit.default_timer()
 
-    results2 = results2.reshape(prjsize, imsize,imsize)
+    results2 = results2.reshape(prjsize, imsizey,imsizex)
 
     diff2 = stop - start
     print("end cuda filter", diff2)
@@ -383,9 +373,9 @@ def testRemoveoutliner1():
     # prjsize is z, imsize is x, y.
 
     size = 15 # window size for the filter
-    imsize =10 # image size for the input
-
-    prjsize= 1
+    imsizex =100 # image size for the input
+    imsizey = 100
+    prjsize= 100
     diff = 20
 
 
@@ -394,18 +384,18 @@ def testRemoveoutliner1():
     roffset = (size-1)/2
 
     #create test 3d array, filter size -1 = loffset+roffset
-    combinedMed = np.zeros(shape=(prjsize,imsize,imsize), dtype=np.float32)
-    combined = np.zeros(shape=(prjsize,imsize+size-1,imsize+size-1), dtype=np.float32)
-    results1 = np.zeros(shape=(prjsize,imsize,imsize), dtype=np.float32)
+    combinedMed = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
+    combined = np.zeros(shape=(prjsize,imsizey+size-1,imsizex+size-1), dtype=np.float32)
+    results1 = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsize, imsize, prjsize, size)
+    filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
 
 
 
     # create combined noise matrix 3D
     for step in range (5,5+prjsize):
-        im_noise = np.arange( 10, imsize*imsize*step+10, step ).reshape(imsize, imsize)
+        im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
         im_noise = im_noise.astype(np.float32)
         combinedMed[step-5]=im_noise
         # print im_noise
@@ -442,6 +432,7 @@ def testRemoveoutliner1():
 
     # print combined
 
+
     im_noisecu = combined.flatten()
     im_noisecu = im_noisecu.astype(np.float32)
 
@@ -454,7 +445,7 @@ def testRemoveoutliner1():
     results2 = filter.retreive()
     stop = timeit.default_timer()
 
-    results2 = results2.reshape(prjsize, imsize,imsize)
+    results2 = results2.reshape(prjsize, imsizey, imsizex)
 
     # print results1
     # print results2

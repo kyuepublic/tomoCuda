@@ -53,6 +53,8 @@ public:
 
   void run3DRemoveOutliner(int size, int diff);
 
+  void run2DLoopFilterXZY(int size);
+
   void retreive(); //gets results back from GPU, putting them in the memory that was passed in
   // the constructor
 

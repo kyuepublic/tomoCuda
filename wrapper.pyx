@@ -10,6 +10,7 @@ cdef extern from "src/medianFilter.hh":
         void run2DFilter(int)
         void run2DLoopFilter(int)
         void run3DRemoveOutliner(int, int)
+        void run2DLoopFilterXZY(int)
         void retreive()
         void retreive_to(np.float32_t*)
         void setImage(np.float32_t*)
@@ -40,6 +41,9 @@ cdef class mFilter:
 
     def run3DRemoveOutliner(self, int size, int diff):
         self.g.run3DRemoveOutliner(size, diff)
+
+    def run2DLoopFilterXZY(self, int size):
+        self.g.run2DLoopFilterXZY(size)
 
     def retreive_inplace(self):
         self.g.retreive()

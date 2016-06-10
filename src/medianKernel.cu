@@ -517,6 +517,69 @@ __global__ void kernelLool3D15(int nx, int ny, int nz,  float *d_out, float *d_i
 
 }
 
+__global__ void kernelLool3D15XZY(int nx, int ny, int nz,  float *d_out, float *d_in)
+{
+   // nx ny nz map to offset in the 1d array
+    unsigned int x = blockIdx.x*blockDim.x + threadIdx.x;
+    unsigned int z = blockIdx.y*blockDim.y + threadIdx.y;
+//    unsigned z = blockIdx.z*blockDim.z + threadIdx.z;
+
+//    int offset = x+y* nx + ny * nx * z;
+    if ((x < nx) && (z < nz))
+    {
+        int winSize = 15;
+        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+
+        int newnx = nx+toffset;
+        int newny = ny+toffset;
+        int zoffset = z*newnx*newny;
+
+        x = x + loffset;
+//        y = y + loffset;
+//        z = z + loffset;
+
+        int i = 0;
+
+        for(int y = loffset; y < ny+loffset; y++)
+        {
+            i = 0;
+
+            for (int xx = x - loffset; xx <= x + roffset; xx++)
+            {
+                for (int yy = y - loffset; yy <= y + roffset; yy++)
+                {
+
+                    v[i++] = d_in[xx+yy*newnx+zoffset];
+                }
+            }
+
+            for (int i = 0; i < vecSize; i++)
+            {
+                for (int j = i + 1; j < vecSize; j++)
+                {
+                    if (v[i] > v[j])
+                    {
+                        float tmp = v[i];
+                        v[i] = v[j];
+                        v[j] = tmp;
+                    }
+                }
+            }
+
+//            printf("the x is %d, y is %d, z is %d, result is %f \n", x, y, z, v[vecSize/2] );
+
+            d_out[x-loffset + (y-loffset)*nx + z*nx*ny ] = v[vecSize/2];
+
+        }
+
+    }
+
+}
 
 __global__ void reomveOutliner3D2(int nx, int ny, int nz, int diff, float *d_out, float *d_in)
 {
