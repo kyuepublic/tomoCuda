@@ -69,11 +69,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="medianFilter.hh" pinned="false" current-in-tab="false">
+          <file leaf-file-name="medianFilter.hh" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/medianFilter.hh">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-31.73077">
-                  <caret line="55" column="7" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
+                <state vertical-scroll-proportion="0.15748031">
+                  <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
                   <folding />
                 </state>
               </provider>
@@ -101,11 +101,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="testMedianFilter.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="testMedianFilter.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/testMedianFilter.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3147208">
-                  <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
                   <folding>
                     <element signature="e#21#34#0" expanded="true" />
                   </folding>
@@ -135,8 +135,8 @@
         <option value="$PROJECT_DIR$/src/medianFilter.cu" />
         <option value="$PROJECT_DIR$/src/medianKernel.cu" />
         <option value="$PROJECT_DIR$/wrapper.pyx" />
-        <option value="$PROJECT_DIR$/src/medianFilter.hh" />
         <option value="$PROJECT_DIR$/testMedianFilter.py" />
+        <option value="$PROJECT_DIR$/src/medianFilter.hh" />
       </list>
     </option>
   </component>
@@ -617,21 +617,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/medianFilter.hh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-31.73077">
-          <caret line="55" column="7" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testMedianFilter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3147208">
-          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding>
             <element signature="e#21#34#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/medianFilter.hh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15748031">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
