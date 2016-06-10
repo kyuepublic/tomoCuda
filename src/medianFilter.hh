@@ -5,8 +5,8 @@ THis is the class for median filter
 #ifndef MEDIANFILTER_H
 #define MEDIANFILTER_H
 
-#define BLOCK_X  16
-#define BLOCK_Y  16
+#define BLOCK_X  32
+#define BLOCK_Y  32
 #define BLOCK_Z  8
 
 

@@ -260,8 +260,6 @@ void medianFilter::run2DLoopFilterXZY(int size)
 {
 
   double iStart = cpuSecond();
-
-
   int block_size_x = BLOCK_X;
   int block_size_y = BLOCK_Y;
 
