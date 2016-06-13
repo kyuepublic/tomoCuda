@@ -1753,8 +1753,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(struct __pyx_obj
  *         self.g.retreive()
  * 
  *     def retreive(self):             # <<<<<<<<<<<<<<
- *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
- * 
+ *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)
+ *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  */
 
 /* Python wrapper */
@@ -1796,8 +1796,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   /* "wrapper.pyx":52
  * 
  *     def retreive(self):
- *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)             # <<<<<<<<<<<<<<
- * 
+ *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)             # <<<<<<<<<<<<<<
+ *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  *         self.g.retreive_to(&a[0])
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1805,7 +1805,7 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_int(((__pyx_v_self->nx * __pyx_v_self->ny) * __pyx_v_self->nz)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_self->nx * __pyx_v_self->ny)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -1841,8 +1841,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   __pyx_t_5 = 0;
 
   /* "wrapper.pyx":54
- *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
- * 
+ *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)
+ *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  *         self.g.retreive_to(&a[0])             # <<<<<<<<<<<<<<
  *         return a
  * 
@@ -1860,7 +1860,7 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   __pyx_v_self->g->retreive_to((&(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_a.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_a.diminfo[0].strides))));
 
   /* "wrapper.pyx":55
- * 
+ *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  *         self.g.retreive_to(&a[0])
  *         return a             # <<<<<<<<<<<<<<
  * 
@@ -1875,8 +1875,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
  *         self.g.retreive()
  * 
  *     def retreive(self):             # <<<<<<<<<<<<<<
- *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
- * 
+ *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)
+ *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  */
 
   /* function exit code */

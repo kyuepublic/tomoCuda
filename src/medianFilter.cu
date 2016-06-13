@@ -20,13 +20,13 @@ medianFilter::medianFilter (/*float* array_host_,*/ int nx_, int ny_, int nz_, i
 
   // inlength is the 2d image size of each image
   // outlength is the 2d image size of each image
-  inlength=(nx+filterSize-1)*(ny+filterSize-1)*nz;
-  outlength = nx*ny*nz;
+//  inlength=(nx+filterSize-1)*(ny+filterSize-1)*nz;
+//  outlength = nx*ny*nz;
 
 
   // inlength is the 2d image size of each image
-//  inlength=(nx+filterSize-1)*(ny+filterSize-1);
-//  outlength = nx*ny;
+  inlength=(nx+filterSize-1)*(ny+filterSize-1);
+  outlength = nx*ny;
 
 
 //  for (int i =0; i< inlength; i++)
@@ -76,7 +76,6 @@ void medianFilter::run2DFilter(int size)
 
   dim3 blocks((nx+block_size_x-1)/block_size_x, (ny+block_size_y-1)/block_size_y);
   dim3 threads(block_size_x,block_size_y);
-
 
 
   switch(filterSize)

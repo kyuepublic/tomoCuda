@@ -49,8 +49,8 @@ cdef class mFilter:
         self.g.retreive()
 
     def retreive(self):
-        cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
-
+        cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)
+        # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
         self.g.retreive_to(&a[0])
         return a
 

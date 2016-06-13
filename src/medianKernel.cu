@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <medianFilter.hh>
 
+//#define IN(X,Y)  d_in[X+Y*]
+//
+//v[i++] = d_in[xx+yy*newnx+zoffset];
 
 // various windows size
 //__global__ void kernel(int nx, int ny, float *d_out, float *d_in, int size)
@@ -319,7 +322,7 @@ __global__ void kernel15(int nx, int ny, float *d_out, float *d_in)
         {
             for (int yy = y - loffset; yy <= y + roffset; yy++)
             {
-                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
+//                if (0 <= xx && xx < nx+toffset && 0 <= yy && yy < ny+toffset) // boundaries
 
                     v[i++] = d_in[yy*(nx+toffset) + xx];
             }
@@ -528,7 +531,8 @@ __global__ void kernelLool3D15XZY(int nx, int ny, int nz,  float *d_out, float *
     if ((x < nx) && (z < nz))
     {
         int winSize = 15;
-        float v[225] = {0};
+        float v[225]={0};
+
 
         int vecSize = winSize*winSize;
         int loffset = winSize/2;
@@ -549,14 +553,16 @@ __global__ void kernelLool3D15XZY(int nx, int ny, int nz,  float *d_out, float *
         {
             i = 0;
 
-            for (int xx = x - loffset; xx <= x + roffset; xx++)
-            {
-                for (int yy = y - loffset; yy <= y + roffset; yy++)
-                {
+//            for (int xx = x - loffset; xx <= x + roffset; xx++)
+//            {
+//                for (int yy = y - loffset; yy <= y + roffset; yy++)
+//                {
+//
+//                    v[i++] = d_in[xx+yy*newnx+zoffset];
+//                }
+//            }
 
-                    v[i++] = d_in[xx+yy*newnx+zoffset];
-                }
-            }
+
 
             for (int i = 0; i < vecSize; i++)
             {

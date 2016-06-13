@@ -305,9 +305,9 @@ def test5():
 
     # print combined
     size = 15 # window size for the filter
-    imsizex =1000 # image size for the input
-    imsizey = 1000
-    prjsize= 1
+    imsizex =3000 # image size for the input
+    imsizey = 2
+    prjsize= 1000
     diff = 20
 
 
