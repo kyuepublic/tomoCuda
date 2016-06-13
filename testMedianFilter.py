@@ -94,10 +94,10 @@ def testMedianFilter2():
     roffset = (size-1)/2
 
     #create test 3d array, filter size -1 = loffset+roffset
-    # combinedMed = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
+    combinedMed = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
     # combined = np.zeros(shape=(prjsize,imsizey+size-1,imsizex+size-1), dtype=np.float32)
-    # results1 = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
-
+    results1 = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
+    resultcombine = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
     # create a gpu median filter object
     filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
 
@@ -106,6 +106,8 @@ def testMedianFilter2():
     # create combined noise matrix 3D
     for step in range (5,5+prjsize):
         im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
+        im_noise = im_noise.astype(np.float32)
+        combinedMed[step-5]=im_noise
 
         im_noisecu = im_noise.astype(np.float32)
         im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
@@ -119,42 +121,22 @@ def testMedianFilter2():
         diff2 = stop - start
         print("end cuda filter", diff2)
 
+        results2=results2.reshape(imsizey,imsizex)
+        resultcombine[step-5]=results2
         # combinedMed[step-5]=im_noise
 
+    start = timeit.default_timer()
+    # im_med = ndimage.median_filter(im_noise, size)
+    # results1 = tomopy.misc.corr.remove_outlier(combinedMed, diff, size )
+    results1 = tomopy.median_filter(combinedMed,size=size)
+    stop = timeit.default_timer()
+    diff1 = stop - start
 
-    # start = timeit.default_timer()
-    # # im_med = ndimage.median_filter(im_noise, size)
-    # # results1 = tomopy.misc.corr.remove_outlier(combinedMed, diff, size )
-    # results1 = tomopy.median_filter(combinedMed,size=size)
-    # stop = timeit.default_timer()
-    # diff1 = stop - start
-    #
-    # print("end scipy remove oulier", diff1 )
-    #
-    #
-    # combined = np.lib.pad(combinedMed, ((0,0), (loffset, roffset),(loffset, roffset)), 'symmetric')
-    #
-    # im_noisecu = combined.flatten()
-    # im_noisecu = im_noisecu.astype(np.float32)
-    #
-    # start = timeit.default_timer()
-    #
-    # # reset the cuda image in the median filter
-    # filter.setCuImage(im_noisecu)
-    #
-    # # start to run the filter with window size
-    # filter.run2DLoopFilterXZY(size)
-    # results2 = filter.retreive()
-    #
-    # stop = timeit.default_timer()
-    #
-    # results2 = results2.reshape(prjsize, imsizey,imsizex)
-    #
-    # diff2 = stop - start
-    # print("end cuda filter", diff2)
-    # print("the times gpu over cpu is", diff1/diff2)
-    #
-    # print not np.any(results1-results2)
+    print("end scipy median filter", diff1 )
+
+    print("the times gpu over cpu is", diff1/diff2)
+
+    print not np.any(results1-results2)
 
 # testMedianFilter1()
 
