@@ -113,6 +113,56 @@ void medianFilter::run2DFilter(int size)
   assert(err == 0);
 }
 
+void medianFilter::run2DRemoveOutliner(int size, int diff)
+{
+
+
+  double iStart = cpuSecond();
+
+  int block_size_x = BLOCK_X;
+  int block_size_y = BLOCK_Y;
+
+  dim3 blocks((nx+block_size_x-1)/block_size_x, (ny+block_size_y-1)/block_size_y);
+  dim3 threads(block_size_x,block_size_y);
+
+
+  switch(filterSize)
+  {
+//    case 2:
+//      kernel2<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      break;
+//    case 3:
+//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      break;
+//    case 4:
+//      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      break;
+//    case 5:
+//      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      break;
+//    case 6:
+//      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      break;
+    case 15:
+//      reomveOutliner2D15<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      reomveOutliner2D15M<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    default:
+      break;
+
+  }
+
+
+  // add these to synchronzie the thread
+  cudaDeviceSynchronize();
+
+  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+
+  cudaError_t err = cudaGetLastError();
+  assert(err == 0);
+}
+
+
 void medianFilter::run3DRemoveOutliner(int size, int diff)
 {
 

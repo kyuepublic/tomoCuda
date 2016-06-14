@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <medianFilter.hh>
 
-//#define IN(X,Y)  d_in[X+Y*]
+#define IN(X,Y)  d_in[X+Y*(14+nx)]
 //
 //v[i++] = d_in[xx+yy*newnx+zoffset];
 
@@ -660,6 +660,130 @@ __global__ void reomveOutliner3D2(int nx, int ny, int nz, int diff, float *d_out
     }
 
 }
+
+__global__ void reomveOutliner2D15(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 15;
+        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+        int i = 0;
+
+        for (int xx = x - loffset; xx <= x + roffset; xx++)
+        {
+            for (int yy = y - loffset; yy <= y + roffset; yy++)
+            {
+                v[i++] = d_in[yy*(nx+toffset) + xx];
+            }
+        }
+
+        float currentPixel = IN(x, y);
+
+        // bubble-sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                {
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        int mask = 0;
+        if((currentPixel-v[vecSize/2]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2]*mask+currentPixel*(1-mask);
+    }
+
+}
+
+__global__ void reomveOutliner2D15M(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 15;
+//        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+//        int i = 0;
+
+        float v[225]={IN(x-7, y-7), IN(x-7, y-6), IN(x-7, y-5), IN(x-7, y-4), IN(x-7, y-3), IN(x-7, y-2), IN(x-7, y-1), IN(x-7, y), IN(x-7, y+1), IN(x-7, y+2), IN(x-7, y+3), IN(x-7, y+4), IN(x-7, y+5), IN(x-7, y+6), IN(x-7, y+7),
+                      IN(x-6, y-7), IN(x-6, y-6), IN(x-6, y-5), IN(x-6, y-4), IN(x-6, y-3), IN(x-6, y-2), IN(x-6, y-1), IN(x-6, y), IN(x-6, y+1), IN(x-6, y+2), IN(x-6, y+3), IN(x-6, y+4), IN(x-6, y+5), IN(x-6, y+6), IN(x-6, y+7),
+                      IN(x-5, y-7), IN(x-5, y-6), IN(x-5, y-5), IN(x-5, y-4), IN(x-5, y-3), IN(x-5, y-2), IN(x-5, y-1), IN(x-5, y), IN(x-5, y+1), IN(x-5, y+2), IN(x-5, y+3), IN(x-5, y+4), IN(x-5, y+5), IN(x-5, y+6), IN(x-5, y+7),
+                      IN(x-4, y-7), IN(x-4, y-6), IN(x-4, y-5), IN(x-4, y-4), IN(x-4, y-3), IN(x-4, y-2), IN(x-4, y-1), IN(x-4, y), IN(x-4, y+1), IN(x-4, y+2), IN(x-4, y+3), IN(x-4, y+4), IN(x-4, y+5), IN(x-4, y+6), IN(x-4, y+7),
+                    IN(x-3, y-7), IN(x-3, y-6), IN(x-3, y-5), IN(x-3, y-4), IN(x-3, y-3), IN(x-3, y-2), IN(x-3, y-1), IN(x-3, y), IN(x-3, y+1), IN(x-3, y+2), IN(x-3, y+3), IN(x-3, y+4), IN(x-3, y+5), IN(x-3, y+6), IN(x-3, y+7),
+                    IN(x-2, y-7), IN(x-2, y-6), IN(x-2, y-5), IN(x-2, y-4), IN(x-2, y-3), IN(x-2, y-2), IN(x-2, y-1), IN(x-2, y), IN(x-2, y+1), IN(x-2, y+2), IN(x-2, y+3), IN(x-2, y+4), IN(x-2, y+5), IN(x-2, y+6), IN(x-2, y+7),
+                    IN(x-1, y-7), IN(x-1, y-6), IN(x-1, y-5), IN(x-1, y-4), IN(x-1, y-3), IN(x-1, y-2), IN(x-1, y-1), IN(x-1, y), IN(x-1, y+1), IN(x-1, y+2), IN(x-1, y+3), IN(x-1, y+4), IN(x-1, y+5), IN(x-1, y+6), IN(x-1, y+7),
+                    IN(x, y-7), IN(x, y-6), IN(x, y-5), IN(x, y-4), IN(x, y-3), IN(x, y-2), IN(x, y-1), IN(x, y), IN(x, y+1), IN(x, y+2), IN(x, y+3), IN(x, y+4), IN(x, y+5), IN(x, y+6), IN(x, y+7),
+                    IN(x+1, y-7), IN(x+1, y-6), IN(x+1, y-5), IN(x+1, y-4), IN(x+1, y-3), IN(x+1, y-2), IN(x+1, y-1), IN(x+1, y), IN(x+1, y+1), IN(x+1, y+2), IN(x+1, y+3), IN(x+1, y+4), IN(x+1, y+5), IN(x+1, y+6), IN(x+1, y+7),
+                    IN(x+2, y-7), IN(x+2, y-6), IN(x+2, y-5), IN(x+2, y-4), IN(x+2, y-3), IN(x+2, y-2), IN(x+2, y-1), IN(x+2, y), IN(x+2, y+1), IN(x+2, y+2), IN(x+2, y+3), IN(x+2, y+4), IN(x+2, y+5), IN(x+2, y+6), IN(x+2, y+7),
+                    IN(x+3, y-7), IN(x+3, y-6), IN(x+3, y-5), IN(x+3, y-4), IN(x+3, y-3), IN(x+3, y-2), IN(x+3, y-1), IN(x+3, y), IN(x+3, y+1), IN(x+3, y+2), IN(x+3, y+3), IN(x+3, y+4), IN(x+3, y+5), IN(x+3, y+6), IN(x+3, y+7),
+                    IN(x+4, y-7), IN(x+4, y-6), IN(x+4, y-5), IN(x+4, y-4), IN(x+4, y-3), IN(x+4, y-2), IN(x+4, y-1), IN(x+4, y), IN(x+4, y+1), IN(x+4, y+2), IN(x+4, y+3), IN(x+4, y+4), IN(x+4, y+5), IN(x+4, y+6), IN(x+4, y+7),
+                    IN(x+5, y-7), IN(x+5, y-6), IN(x+5, y-5), IN(x+5, y-4), IN(x+5, y-3), IN(x+5, y-2), IN(x+5, y-1), IN(x+5, y), IN(x+5, y+1), IN(x+5, y+2), IN(x+5, y+3), IN(x+5, y+4), IN(x+5, y+5), IN(x+5, y+6), IN(x+5, y+7),
+                    IN(x+6, y-7), IN(x+6, y-6), IN(x+6, y-5), IN(x+6, y-4), IN(x+6, y-3), IN(x+6, y-2), IN(x+6, y-1), IN(x+6, y), IN(x+6, y+1), IN(x+6, y+2), IN(x+6, y+3), IN(x+6, y+4), IN(x+6, y+5), IN(x+6, y+6), IN(x+6, y+7),
+                    IN(x+7, y-7), IN(x+7, y-6), IN(x+7, y-5), IN(x+7, y-4), IN(x+7, y-3), IN(x+7, y-2), IN(x+7, y-1), IN(x+7, y), IN(x+7, y+1), IN(x+7, y+2), IN(x+7, y+3), IN(x+7, y+4), IN(x+7, y+5), IN(x+7, y+6), IN(x+7, y+7)
+        };
+
+        float currentPixel = IN(x, y);
+
+        // bubble-sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                {
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        int mask = 0;
+        if((currentPixel-v[vecSize/2]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2]*mask+currentPixel*(1-mask);
+    }
+
+}
+
 
 __global__ void reomveOutliner3D15(int nx, int ny, int nz, int diff, float *d_out, float *d_in)
 {

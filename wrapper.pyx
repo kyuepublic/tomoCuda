@@ -9,6 +9,7 @@ cdef extern from "src/medianFilter.hh":
         void run3DFilter(int)
         void run2DFilter(int)
         void run2DLoopFilter(int)
+        void run2DRemoveOutliner(int, int)
         void run3DRemoveOutliner(int, int)
         void run2DLoopFilterXZY(int)
         void retreive()
@@ -38,6 +39,9 @@ cdef class mFilter:
 
     def run2DLoopFilter(self, int size):
         self.g.run2DLoopFilter(size)
+
+    def run2DRemoveOutliner(self, int size, int diff):
+        self.g.run2DRemoveOutliner(size, diff)
 
     def run3DRemoveOutliner(self, int size, int diff):
         self.g.run3DRemoveOutliner(size, diff)

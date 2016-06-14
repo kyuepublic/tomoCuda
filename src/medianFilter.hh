@@ -51,6 +51,8 @@ public:
 
   void run2DLoopFilter(int size);
 
+  void run2DRemoveOutliner(int size, int diff);
+
   void run3DRemoveOutliner(int size, int diff);
 
   void run2DLoopFilterXZY(int size);
