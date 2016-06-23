@@ -83,10 +83,11 @@ def testMedianFilter2():
 
     # print combined
     size = 15 # window size for the filter
-    imsizex =2016 # image size for the input
-    imsizey = 2560
+    imsizex =5016 # image size for the input
+    imsizey = 5560
     prjsize=1
     diff = 20
+
 
 
     # the left and right offset of the image to do the reflect mode
@@ -111,6 +112,9 @@ def testMedianFilter2():
 
         im_noisecu = im_noise.astype(np.float32)
         im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
+
+        # print im_noisecu
+
         im_noisecu = im_noisecu.flatten()
 
         start = timeit.default_timer()
@@ -125,6 +129,8 @@ def testMedianFilter2():
         resultcombine[step-5]=results2
         # combinedMed[step-5]=im_noise
 
+    # print combinedMed
+
     start = timeit.default_timer()
     # im_med = ndimage.median_filter(im_noise, size)
     # results1 = tomopy.misc.corr.remove_outlier(combinedMed, diff, size )
@@ -136,7 +142,10 @@ def testMedianFilter2():
 
     print("the times gpu over cpu is", diff1/diff2)
 
-    print not np.any(results1-resultcombine)
+    # print results1
+    # print resultcombine
+    print results1-resultcombine
+    # print not np.any(results1-resultcombine)
 
 def testRemoveOutliner1():
     '''test with random array, loop outside with a 2d cuda kernel'''
@@ -146,7 +155,7 @@ def testRemoveOutliner1():
     size = 15 # window size for the filter
     imsizex =2016 # image size for the input
     imsizey = 2560
-    prjsize=2
+    prjsize=10
     diff = 20
 
 
@@ -187,9 +196,9 @@ def testRemoveOutliner1():
         # combinedMed[step-5]=im_noise
 
     start = timeit.default_timer()
-    # im_med = ndimage.median_filter(im_noise, size)
+
     results1 = tomopy.misc.corr.remove_outlier(combinedMed, diff, size )
-    # results1 = tomopy.median_filter(combinedMed,size=size)
+
     stop = timeit.default_timer()
     diff1 = stop - start
 

@@ -4,12 +4,24 @@ THis is the class for median filter
 */
 #ifndef MEDIANFILTER_H
 #define MEDIANFILTER_H
+#include <assert.h>
+#include <cuda_runtime_api.h>
 
-#define BLOCK_X  32
-#define BLOCK_Y  32
+#define BLOCK_X  16
+#define BLOCK_Y  16
+
 #define BLOCK_Z  8
 
+#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+{
+   if (code != cudaSuccess)
+   {
+      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+      if (abort) exit(code);
+   }
+}
 
 class medianFilter {
   // pointer to the GPU memory where the array is stored
@@ -67,6 +79,8 @@ public:
   void setImage(float* array_host_);
 
   double cpuSecond();
+
+//  void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true);
 
 };
 

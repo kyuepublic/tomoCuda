@@ -3,7 +3,13 @@
 #include <stdio.h>
 #include <medianFilter.hh>
 
-#define IN(X,Y)  d_in[X+Y*(14+nx)]
+//#define SMEM(X,Y)  smem[(X)+7][(Y)+7]
+#define IN(X,Y)  d_in[(X)+(Y)*(14+nx)]
+
+
+#define swapd(a,b)    { float tmp = a; a = min(a,b); b = max(tmp,b); }
+
+
 //
 //v[i++] = d_in[xx+yy*newnx+zoffset];
 
@@ -348,6 +354,342 @@ __global__ void kernel15(int nx, int ny, float *d_out, float *d_in)
 
 }
 
+__global__ void kernel15M(int nx, int ny, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 15;
+//        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[225]={IN(x-7, y-7), IN(x-7, y-6), IN(x-7, y-5), IN(x-7, y-4), IN(x-7, y-3), IN(x-7, y-2), IN(x-7, y-1), IN(x-7, y), IN(x-7, y+1), IN(x-7, y+2), IN(x-7, y+3), IN(x-7, y+4), IN(x-7, y+5), IN(x-7, y+6), IN(x-7, y+7),
+                      IN(x-6, y-7), IN(x-6, y-6), IN(x-6, y-5), IN(x-6, y-4), IN(x-6, y-3), IN(x-6, y-2), IN(x-6, y-1), IN(x-6, y), IN(x-6, y+1), IN(x-6, y+2), IN(x-6, y+3), IN(x-6, y+4), IN(x-6, y+5), IN(x-6, y+6), IN(x-6, y+7),
+                      IN(x-5, y-7), IN(x-5, y-6), IN(x-5, y-5), IN(x-5, y-4), IN(x-5, y-3), IN(x-5, y-2), IN(x-5, y-1), IN(x-5, y), IN(x-5, y+1), IN(x-5, y+2), IN(x-5, y+3), IN(x-5, y+4), IN(x-5, y+5), IN(x-5, y+6), IN(x-5, y+7),
+                      IN(x-4, y-7), IN(x-4, y-6), IN(x-4, y-5), IN(x-4, y-4), IN(x-4, y-3), IN(x-4, y-2), IN(x-4, y-1), IN(x-4, y), IN(x-4, y+1), IN(x-4, y+2), IN(x-4, y+3), IN(x-4, y+4), IN(x-4, y+5), IN(x-4, y+6), IN(x-4, y+7),
+                    IN(x-3, y-7), IN(x-3, y-6), IN(x-3, y-5), IN(x-3, y-4), IN(x-3, y-3), IN(x-3, y-2), IN(x-3, y-1), IN(x-3, y), IN(x-3, y+1), IN(x-3, y+2), IN(x-3, y+3), IN(x-3, y+4), IN(x-3, y+5), IN(x-3, y+6), IN(x-3, y+7),
+                    IN(x-2, y-7), IN(x-2, y-6), IN(x-2, y-5), IN(x-2, y-4), IN(x-2, y-3), IN(x-2, y-2), IN(x-2, y-1), IN(x-2, y), IN(x-2, y+1), IN(x-2, y+2), IN(x-2, y+3), IN(x-2, y+4), IN(x-2, y+5), IN(x-2, y+6), IN(x-2, y+7),
+                    IN(x-1, y-7), IN(x-1, y-6), IN(x-1, y-5), IN(x-1, y-4), IN(x-1, y-3), IN(x-1, y-2), IN(x-1, y-1), IN(x-1, y), IN(x-1, y+1), IN(x-1, y+2), IN(x-1, y+3), IN(x-1, y+4), IN(x-1, y+5), IN(x-1, y+6), IN(x-1, y+7),
+                    IN(x, y-7), IN(x, y-6), IN(x, y-5), IN(x, y-4), IN(x, y-3), IN(x, y-2), IN(x, y-1), IN(x, y), IN(x, y+1), IN(x, y+2), IN(x, y+3), IN(x, y+4), IN(x, y+5), IN(x, y+6), IN(x, y+7),
+                    IN(x+1, y-7), IN(x+1, y-6), IN(x+1, y-5), IN(x+1, y-4), IN(x+1, y-3), IN(x+1, y-2), IN(x+1, y-1), IN(x+1, y), IN(x+1, y+1), IN(x+1, y+2), IN(x+1, y+3), IN(x+1, y+4), IN(x+1, y+5), IN(x+1, y+6), IN(x+1, y+7),
+                    IN(x+2, y-7), IN(x+2, y-6), IN(x+2, y-5), IN(x+2, y-4), IN(x+2, y-3), IN(x+2, y-2), IN(x+2, y-1), IN(x+2, y), IN(x+2, y+1), IN(x+2, y+2), IN(x+2, y+3), IN(x+2, y+4), IN(x+2, y+5), IN(x+2, y+6), IN(x+2, y+7),
+                    IN(x+3, y-7), IN(x+3, y-6), IN(x+3, y-5), IN(x+3, y-4), IN(x+3, y-3), IN(x+3, y-2), IN(x+3, y-1), IN(x+3, y), IN(x+3, y+1), IN(x+3, y+2), IN(x+3, y+3), IN(x+3, y+4), IN(x+3, y+5), IN(x+3, y+6), IN(x+3, y+7),
+                    IN(x+4, y-7), IN(x+4, y-6), IN(x+4, y-5), IN(x+4, y-4), IN(x+4, y-3), IN(x+4, y-2), IN(x+4, y-1), IN(x+4, y), IN(x+4, y+1), IN(x+4, y+2), IN(x+4, y+3), IN(x+4, y+4), IN(x+4, y+5), IN(x+4, y+6), IN(x+4, y+7),
+                    IN(x+5, y-7), IN(x+5, y-6), IN(x+5, y-5), IN(x+5, y-4), IN(x+5, y-3), IN(x+5, y-2), IN(x+5, y-1), IN(x+5, y), IN(x+5, y+1), IN(x+5, y+2), IN(x+5, y+3), IN(x+5, y+4), IN(x+5, y+5), IN(x+5, y+6), IN(x+5, y+7),
+                    IN(x+6, y-7), IN(x+6, y-6), IN(x+6, y-5), IN(x+6, y-4), IN(x+6, y-3), IN(x+6, y-2), IN(x+6, y-1), IN(x+6, y), IN(x+6, y+1), IN(x+6, y+2), IN(x+6, y+3), IN(x+6, y+4), IN(x+6, y+5), IN(x+6, y+6), IN(x+6, y+7),
+                    IN(x+7, y-7), IN(x+7, y-6), IN(x+7, y-5), IN(x+7, y-4), IN(x+7, y-3), IN(x+7, y-2), IN(x+7, y-1), IN(x+7, y), IN(x+7, y+1), IN(x+7, y+2), IN(x+7, y+3), IN(x+7, y+4), IN(x+7, y+5), IN(x+7, y+6), IN(x+7, y+7)
+        };
+
+        // bubble-sort
+        for (int i = 0; i < vecSize; i++)
+        {
+            for (int j = i + 1; j < vecSize; j++)
+            {
+                if (v[i] > v[j])
+                { /* swap? */
+                    float tmp = v[i];
+                    v[i] = v[j];
+                    v[j] = tmp;
+                }
+            }
+        }
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2];
+    }
+
+}
+
+// Use the new exchange way
+
+__global__ void kernel15ME(int nx, int ny, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 15;
+//        float v[225] = {0};
+
+        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+        int roffset = (winSize-1)/2;
+        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[120]={IN(x-7, y-7), IN(x-7, y-6), IN(x-7, y-5), IN(x-7, y-4), IN(x-7, y-3), IN(x-7, y-2), IN(x-7, y-1), IN(x-7, y), IN(x-7, y+1), IN(x-7, y+2), IN(x-7, y+3), IN(x-7, y+4), IN(x-7, y+5), IN(x-7, y+6), IN(x-7, y+7),
+                      IN(x-6, y-7), IN(x-6, y-6), IN(x-6, y-5), IN(x-6, y-4), IN(x-6, y-3), IN(x-6, y-2), IN(x-6, y-1), IN(x-6, y), IN(x-6, y+1), IN(x-6, y+2), IN(x-6, y+3), IN(x-6, y+4), IN(x-6, y+5), IN(x-6, y+6), IN(x-6, y+7),
+                      IN(x-5, y-7), IN(x-5, y-6), IN(x-5, y-5), IN(x-5, y-4), IN(x-5, y-3), IN(x-5, y-2), IN(x-5, y-1), IN(x-5, y), IN(x-5, y+1), IN(x-5, y+2), IN(x-5, y+3), IN(x-5, y+4), IN(x-5, y+5), IN(x-5, y+6), IN(x-5, y+7),
+                      IN(x-4, y-7), IN(x-4, y-6), IN(x-4, y-5), IN(x-4, y-4), IN(x-4, y-3), IN(x-4, y-2), IN(x-4, y-1), IN(x-4, y), IN(x-4, y+1), IN(x-4, y+2), IN(x-4, y+3), IN(x-4, y+4), IN(x-4, y+5), IN(x-4, y+6), IN(x-4, y+7),
+                    IN(x-3, y-7), IN(x-3, y-6), IN(x-3, y-5), IN(x-3, y-4), IN(x-3, y-3), IN(x-3, y-2), IN(x-3, y-1), IN(x-3, y), IN(x-3, y+1), IN(x-3, y+2), IN(x-3, y+3), IN(x-3, y+4), IN(x-3, y+5), IN(x-3, y+6), IN(x-3, y+7),
+                    IN(x-2, y-7), IN(x-2, y-6), IN(x-2, y-5), IN(x-2, y-4), IN(x-2, y-3), IN(x-2, y-2), IN(x-2, y-1), IN(x-2, y), IN(x-2, y+1), IN(x-2, y+2), IN(x-2, y+3), IN(x-2, y+4), IN(x-2, y+5), IN(x-2, y+6), IN(x-2, y+7),
+                    IN(x-1, y-7), IN(x-1, y-6), IN(x-1, y-5), IN(x-1, y-4), IN(x-1, y-3), IN(x-1, y-2), IN(x-1, y-1), IN(x-1, y), IN(x-1, y+1), IN(x-1, y+2), IN(x-1, y+3), IN(x-1, y+4), IN(x-1, y+5), IN(x-1, y+6), IN(x-1, y+7),
+                    IN(x, y-7), IN(x, y-6), IN(x, y-5), IN(x, y-4), IN(x, y-3), IN(x, y-2), IN(x, y-1), IN(x, y), IN(x, y+1), IN(x, y+2), IN(x, y+3), IN(x, y+4), IN(x, y+5), IN(x, y+6), IN(x, y+7)
+                    };
+
+
+        const int ARR_SIZE = 120;
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= 7; k++) {
+
+            for(int j = -7; j <= 7; j++) {
+
+                // add new contestant to first position in array
+                v[0] = IN(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        for(int k = 1; k < 7; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < 7; i++) {
+                swapd(v[i], v[15-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= 7; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = 15-k-2; i >= 7; i--) {
+                swapd(v[i], v[15-1-k]);
+            }
+        }
+
+        for(int k = 1; k < 7; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < 7; i++) {
+                swapd(v[i], v[15-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= 7; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = 15-k-2; i >= 7; i--) {
+                swapd(v[i], v[15-1-k]);
+            }
+        }
+
+        // bubble-sort
+//        for (int i = 0; i < vecSize; i++)
+//        {
+//            for (int j = i + 1; j < vecSize; j++)
+//            {
+//                if (v[i] > v[j])
+//                { /* swap? */
+//                    float tmp = v[i];
+//                    v[i] = v[j];
+//                    v[j] = tmp;
+//                }
+//            }
+//        }
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[7];
+    }
+
+}
+
+//__global__ void kernel15MS(int nx, int ny, float *d_out, float *d_in)
+//{
+//    __shared__ float smem[BLOCK_X+14][BLOCK_Y+14];
+//
+//    int tx = threadIdx.x, ty = threadIdx.y;
+//
+//    int x = blockIdx.x * blockDim.x + tx;
+//    int y = blockIdx.y * blockDim.y + ty;
+//
+//    bool is_x_top = (tx == 0), is_x_bot = (tx == BLOCK_X-1);
+//    bool is_y_top = (ty == 0), is_y_bot = (ty == BLOCK_Y-1);
+//
+//    if ((x < nx) && (y < ny))
+//    {
+//        int winSize = 15;
+//
+//        int vecSize = winSize*winSize;
+//        int loffset = winSize/2;
+////        int roffset = (winSize-1)/2;
+////        int toffset = loffset+roffset;
+//
+//        x = x + loffset;
+//        y = y + loffset;
+//
+//        SMEM(tx , ty) = IN(x, y); // self pixel value
+//
+//
+////        if (is_x_top)
+////        {
+////            SMEM(tx-1, ty) = IN(x-1, y);
+////            SMEM(tx-2, ty) = IN(x-2, y);
+////            SMEM(tx-3, ty) = IN(x-3, y);
+////            SMEM(tx-4, ty) = IN(x-4, y);
+////            SMEM(tx-5, ty) = IN(x-5, y);
+////            SMEM(tx-6, ty) = IN(x-6, y);
+////            SMEM(tx-7, ty) = IN(x-7, y);
+////        }
+////        else if (is_x_bot)
+////        {
+////            SMEM(tx+1, ty) = IN(x+1, y);
+////            SMEM(tx+2, ty) = IN(x+2, y);
+////            SMEM(tx+3, ty) = IN(x+3, y);
+////            SMEM(tx+4, ty) = IN(x+4, y);
+////            SMEM(tx+5, ty) = IN(x+5, y);
+////            SMEM(tx+6, ty) = IN(x+6, y);
+////            SMEM(tx+7, ty) = IN(x+7, y);
+////        }
+////
+////        if (is_y_top)
+////        {
+////            SMEM(tx, ty-1) = IN(x, y-1);
+////            SMEM(tx, ty-2) = IN(x, y-2);
+////            SMEM(tx, ty-3) = IN(x, y-3);
+////            SMEM(tx, ty-4) = IN(x, y-4);
+////            SMEM(tx, ty-5) = IN(x, y-5);
+////            SMEM(tx, ty-6) = IN(x, y-6);
+////            SMEM(tx, ty-7) = IN(x, y-7);
+////            if (is_x_top)
+////            {
+////                SMEM(tx-1, ty-1) = IN(x-1, y-1);
+////                SMEM(tx-2, ty-2) = IN(x-2, y-2);
+////                SMEM(tx-3, ty-3) = IN(x-3, y-3);
+////                SMEM(tx-4, ty-4) = IN(x-4, y-4);
+////                SMEM(tx-5, ty-5) = IN(x-5, y-5);
+////                SMEM(tx-6, ty-6) = IN(x-6, y-6);
+////                SMEM(tx-7, ty-7) = IN(x-7, y-7);
+////
+//////                SMEM(tx-1, ty-1) = IN(x-1, y-1);
+////
+////            }
+////            else if (is_x_bot)
+////            {
+////                SMEM(tx+1, ty-1) = IN(x+1, y-1);
+////                SMEM(tx+2, ty-2) = IN(x+2, y-2);
+////                SMEM(tx+3, ty-3) = IN(x+3, y-3);
+////                SMEM(tx+4, ty-4) = IN(x+4, y-4);
+////                SMEM(tx+5, ty-5) = IN(x+5, y-5);
+////                SMEM(tx+6, ty-6) = IN(x+6, y-6);
+////                SMEM(tx+7, ty-7) = IN(x+7, y-7);
+////            }
+////        }
+////        else if (is_y_bot)
+////        {
+////            SMEM(tx, ty+1) = IN(x, y+1);
+////            SMEM(tx, ty+2) = IN(x, y+2);
+////            SMEM(tx, ty+3) = IN(x, y+3);
+////            SMEM(tx, ty+4) = IN(x, y+4);
+////            SMEM(tx, ty+5) = IN(x, y+5);
+////            SMEM(tx, ty+6) = IN(x, y+6);
+////            SMEM(tx, ty+7) = IN(x, y+7);
+////            if (is_x_top)
+////            {
+////                SMEM(tx-1, ty+1) = IN(x-1, y+1);
+////                SMEM(tx-2, ty+2) = IN(x-2, y+2);
+////                SMEM(tx-3, ty+3) = IN(x-3, y+3);
+////                SMEM(tx-4, ty+4) = IN(x-4, y+4);
+////                SMEM(tx-5, ty+5) = IN(x-5, y+5);
+////                SMEM(tx-6, ty+6) = IN(x-6, y+6);
+////                SMEM(tx-7, ty+7) = IN(x-7, y+7);
+////            }
+////            else if (is_x_bot)
+////            {
+////                SMEM(tx+1, ty+1) = IN(x+1, y+1);
+////                SMEM(tx+2, ty+2) = IN(x+2, y+2);
+////                SMEM(tx+3, ty+3) = IN(x+3, y+3);
+////                SMEM(tx+4, ty+4) = IN(x+4, y+4);
+////                SMEM(tx+5, ty+5) = IN(x+5, y+5);
+////                SMEM(tx+6, ty+6) = IN(x+6, y+6);
+////                SMEM(tx+7, ty+7) = IN(x+7, y+7);
+////            }
+//
+////        }
+//    __syncthreads();
+////    printf("the x is %d, y is %d, i is , result is %f\n", x, y, SMEM(tx-7, ty-7));
+//    // use macro to fetch the value, like loop unrolling
+//    float v[225]={SMEM(tx-7, ty-7), SMEM(tx-7, ty-6), SMEM(tx-7, ty-5), SMEM(tx-7, ty-4), SMEM(tx-7, ty-3), SMEM(tx-7, ty-2), SMEM(tx-7, ty-1), SMEM(tx-7, ty), SMEM(tx-7, ty+1), SMEM(tx-7, ty+2), SMEM(tx-7, ty+3), SMEM(tx-7, ty+4), SMEM(tx-7, ty+5), SMEM(tx-7, ty+6), SMEM(tx-7, ty+7),
+//                  SMEM(tx-6, ty-7), SMEM(tx-6, ty-6), SMEM(tx-6, ty-5), SMEM(tx-6, ty-4), SMEM(tx-6, ty-3), SMEM(tx-6, ty-2), SMEM(tx-6, ty-1), SMEM(tx-6, ty), SMEM(tx-6, ty+1), SMEM(tx-6, ty+2), SMEM(tx-6, ty+3), SMEM(tx-6, ty+4), SMEM(tx-6, ty+5), SMEM(tx-6, ty+6), SMEM(tx-6, ty+7),
+//                  SMEM(tx-5, ty-7), SMEM(tx-5, ty-6), SMEM(tx-5, ty-5), SMEM(tx-5, ty-4), SMEM(tx-5, ty-3), SMEM(tx-5, ty-2), SMEM(tx-5, ty-1), SMEM(tx-5, ty), SMEM(tx-5, ty+1), SMEM(tx-5, ty+2), SMEM(tx-5, ty+3), SMEM(tx-5, ty+4), SMEM(tx-5, ty+5), SMEM(tx-5, ty+6), SMEM(tx-5, ty+7),
+//                  SMEM(tx-4, ty-7), SMEM(tx-4, ty-6), SMEM(tx-4, ty-5), SMEM(tx-4, ty-4), SMEM(tx-4, ty-3), SMEM(tx-4, ty-2), SMEM(tx-4, ty-1), SMEM(tx-4, ty), SMEM(tx-4, ty+1), SMEM(tx-4, ty+2), SMEM(tx-4, ty+3), SMEM(tx-4, ty+4), SMEM(tx-4, ty+5), SMEM(tx-4, ty+6), SMEM(tx-4, ty+7),
+//                SMEM(tx-3, ty-7), SMEM(tx-3, ty-6), SMEM(tx-3, ty-5), SMEM(tx-3, ty-4), SMEM(tx-3, ty-3), SMEM(tx-3, ty-2), SMEM(tx-3, ty-1), SMEM(tx-3, ty), SMEM(tx-3, ty+1), SMEM(tx-3, ty+2), SMEM(tx-3, ty+3), SMEM(tx-3, ty+4), SMEM(tx-3, ty+5), SMEM(tx-3, ty+6), SMEM(tx-3, ty+7),
+//                SMEM(tx-2, ty-7), SMEM(tx-2, ty-6), SMEM(tx-2, ty-5), SMEM(tx-2, ty-4), SMEM(tx-2, ty-3), SMEM(tx-2, ty-2), SMEM(tx-2, ty-1), SMEM(tx-2, ty), SMEM(tx-2, ty+1), SMEM(tx-2, ty+2), SMEM(tx-2, ty+3), SMEM(tx-2, ty+4), SMEM(tx-2, ty+5), SMEM(tx-2, ty+6), SMEM(tx-2, ty+7),
+//                SMEM(tx-1, ty-7), SMEM(tx-1, ty-6), SMEM(tx-1, ty-5), SMEM(tx-1, ty-4), SMEM(tx-1, ty-3), SMEM(tx-1, ty-2), SMEM(tx-1, ty-1), SMEM(tx-1, ty), SMEM(tx-1, ty+1), SMEM(tx-1, ty+2), SMEM(tx-1, ty+3), SMEM(tx-1, ty+4), SMEM(tx-1, ty+5), SMEM(tx-1, ty+6), SMEM(tx-1, ty+7),
+//                SMEM(tx, ty-7), SMEM(tx, ty-6), SMEM(tx, ty-5), SMEM(tx, ty-4), SMEM(tx, ty-3), SMEM(tx, ty-2), SMEM(tx, ty-1), SMEM(tx, ty), SMEM(tx, ty+1), SMEM(tx, ty+2), SMEM(tx, ty+3), SMEM(tx, ty+4), SMEM(tx, ty+5), SMEM(tx, ty+6), SMEM(tx, ty+7),
+//                SMEM(tx+1, ty-7), SMEM(tx+1, ty-6), SMEM(tx+1, ty-5), SMEM(tx+1, ty-4), SMEM(tx+1, ty-3), SMEM(tx+1, ty-2), SMEM(tx+1, ty-1), SMEM(tx+1, ty), SMEM(tx+1, ty+1), SMEM(tx+1, ty+2), SMEM(tx+1, ty+3), SMEM(tx+1, ty+4), SMEM(tx+1, ty+5), SMEM(tx+1, ty+6), SMEM(tx+1, ty+7),
+//                SMEM(tx+2, ty-7), SMEM(tx+2, ty-6), SMEM(tx+2, ty-5), SMEM(tx+2, ty-4), SMEM(tx+2, ty-3), SMEM(tx+2, ty-2), SMEM(tx+2, ty-1), SMEM(tx+2, ty), SMEM(tx+2, ty+1), SMEM(tx+2, ty+2), SMEM(tx+2, ty+3), SMEM(tx+2, ty+4), SMEM(tx+2, ty+5), SMEM(tx+2, ty+6), SMEM(tx+2, ty+7),
+//                SMEM(tx+3, ty-7), SMEM(tx+3, ty-6), SMEM(tx+3, ty-5), SMEM(tx+3, ty-4), SMEM(tx+3, ty-3), SMEM(tx+3, ty-2), SMEM(tx+3, ty-1), SMEM(tx+3, ty), SMEM(tx+3, ty+1), SMEM(tx+3, ty+2), SMEM(tx+3, ty+3), SMEM(tx+3, ty+4), SMEM(tx+3, ty+5), SMEM(tx+3, ty+6), SMEM(tx+3, ty+7),
+//                SMEM(tx+4, ty-7), SMEM(tx+4, ty-6), SMEM(tx+4, ty-5), SMEM(tx+4, ty-4), SMEM(tx+4, ty-3), SMEM(tx+4, ty-2), SMEM(tx+4, ty-1), SMEM(tx+4, ty), SMEM(tx+4, ty+1), SMEM(tx+4, ty+2), SMEM(tx+4, ty+3), SMEM(tx+4, ty+4), SMEM(tx+4, ty+5), SMEM(tx+4, ty+6), SMEM(tx+4, ty+7),
+//                SMEM(tx+5, ty-7), SMEM(tx+5, ty-6), SMEM(tx+5, ty-5), SMEM(tx+5, ty-4), SMEM(tx+5, ty-3), SMEM(tx+5, ty-2), SMEM(tx+5, ty-1), SMEM(tx+5, ty), SMEM(tx+5, ty+1), SMEM(tx+5, ty+2), SMEM(tx+5, ty+3), SMEM(tx+5, ty+4), SMEM(tx+5, ty+5), SMEM(tx+5, ty+6), SMEM(tx+5, ty+7),
+//                SMEM(tx+6, ty-7), SMEM(tx+6, ty-6), SMEM(tx+6, ty-5), SMEM(tx+6, ty-4), SMEM(tx+6, ty-3), SMEM(tx+6, ty-2), SMEM(tx+6, ty-1), SMEM(tx+6, ty), SMEM(tx+6, ty+1), SMEM(tx+6, ty+2), SMEM(tx+6, ty+3), SMEM(tx+6, ty+4), SMEM(tx+6, ty+5), SMEM(tx+6, ty+6), SMEM(tx+6, ty+7),
+//                SMEM(tx+7, ty-7), SMEM(tx+7, ty-6), SMEM(tx+7, ty-5), SMEM(tx+7, ty-4), SMEM(tx+7, ty-3), SMEM(tx+7, ty-2), SMEM(tx+7, ty-1), SMEM(tx+7, ty), SMEM(tx+7, ty+1), SMEM(tx+7, ty+2), SMEM(tx+7, ty+3), SMEM(tx+7, ty+4), SMEM(tx+7, ty+5), SMEM(tx+7, ty+6), SMEM(tx+7, ty+7)
+//    };
+//
+//
+//        // bubble-sort
+//        for (int i = 0; i < vecSize; i++)
+//        {
+//            for (int j = i + 1; j < vecSize; j++)
+//            {
+//                if (v[i] > v[j])
+//                { /* swap? */
+//                    float tmp = v[i];
+//                    v[i] = v[j];
+//                    v[j] = tmp;
+//                }
+//            }
+//        }
+//
+//        // pick the middle one
+//        d_out[(y-loffset)*nx + x-loffset] = v[vecSize/2];
+//    }
+//
+//}
+//
 __global__ void kernel3D2(int nx, int ny, int nz,  float *d_out, float *d_in)
 {
    // nx ny nz map to offset in the 1d array
@@ -869,7 +1211,7 @@ __global__ void reomveOutliner3D15(int nx, int ny, int nz, int diff, float *d_ou
 //#define SMEM(x,y)  smem[(x)+1][(y)+1]
 //#define IN(x,y)    d_in[(y)*nx + (x)]
 //
-// __global__ void kernel(int nx, int ny, float *d_out, float *d_in, int size)
+// __global__ void kernel3S(int nx, int ny, float *d_out, float *d_in)
 //{
 //
 //    int tx = threadIdx.x, ty = threadIdx.y;

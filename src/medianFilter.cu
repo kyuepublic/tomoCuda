@@ -5,7 +5,9 @@
 #include <sys/time.h>
 #include <iostream>
 
+
 using namespace std;
+
 
 medianFilter::medianFilter (/*float* array_host_,*/ int nx_, int ny_, int nz_, int filterSize_)
 {
@@ -77,14 +79,20 @@ void medianFilter::run2DFilter(int size)
   dim3 blocks((nx+block_size_x-1)/block_size_x, (ny+block_size_y-1)/block_size_y);
   dim3 threads(block_size_x,block_size_y);
 
+//  af_border_type pad = AF_PAD_SYM;
+//  Param<float> out;
+//  out.ptr=array_device_out;
+//  out.dims[0]=
 
   switch(filterSize)
   {
     case 2:
       kernel2<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel2MS<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 3:
       kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel3S<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 4:
       kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
@@ -96,12 +104,17 @@ void medianFilter::run2DFilter(int size)
       kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 15:
-      kernel15<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel15<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel15M<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel15MS<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      kernel15ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//        medfilt<float, pad, 15, 15><<<blocks, threads)>>>(out, in, blk_x, blk_y)
       break;
     default:
       break;
 
   }
+
 
 
   // add these to synchronzie the thread
@@ -111,6 +124,9 @@ void medianFilter::run2DFilter(int size)
 
   cudaError_t err = cudaGetLastError();
   assert(err == 0);
+//  gpuErrchk( cudaPeekAtLastError());
+//  gpuErrchk( cudaDeviceSynchronize() );
+
 }
 
 void medianFilter::run2DRemoveOutliner(int size, int diff)
@@ -145,6 +161,7 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
 //      break;
     case 15:
 //      reomveOutliner2D15<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+
       reomveOutliner2D15M<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
       break;
     default:
@@ -366,11 +383,11 @@ void medianFilter::retreive_to (float* array_host_)
 //  assert(length == length_);
 //  time_t start = time(NULL);
 
-  double iStart = cpuSecond();
+//  double iStart = cpuSecond();
 
   cudaMemcpy(array_host_, array_device_out, outsize, cudaMemcpyDeviceToHost);
 
-  printf("total copy back time for this process took %f sec \n",(cpuSecond() - iStart));
+//  printf("total copy back time for this process took %f sec \n",(cpuSecond() - iStart));
 
   cudaError_t err = cudaGetLastError();
   assert(err == 0);
@@ -379,14 +396,14 @@ void medianFilter::retreive_to (float* array_host_)
 void medianFilter::setImage(float* array_host_)
 {
 
-  double iStart = cpuSecond();
+//  double iStart = cpuSecond();
 
   array_host = array_host_;
 
   cudaError_t err = cudaMemcpy(array_device_in, array_host, insize, cudaMemcpyHostToDevice);
 
-  printf("total copy to device time for this process took %f sec \n",(cpuSecond() - iStart));
-
+//  printf("total copy to device time for this process took %f sec \n",(cpuSecond() - iStart));
+  gpuErrchk( cudaPeekAtLastError());
   assert(err == 0);
 
 }

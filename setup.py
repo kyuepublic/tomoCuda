@@ -58,7 +58,7 @@ except AttributeError:
 
 
 ext = Extension('tomoCuda',
-                sources=['src/medianFilter.cu', 'wrapper.pyx'],
+                sources=['src/medianFilter.cu', 'src/removeOutliner.cu', 'wrapper.pyx'],
                 library_dirs=[CUDA['lib64']],
                 libraries=['cudart'],
                 language='c++',
