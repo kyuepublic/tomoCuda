@@ -6,10 +6,11 @@ THis is the class for median filter
 #define MEDIANFILTER_H
 #include <assert.h>
 #include <cuda_runtime_api.h>
+#include <stdio.h>
 
-#define BLOCK_X  16
-#define BLOCK_Y  16
 
+#define BLOCK_X  8
+#define BLOCK_Y  2
 #define BLOCK_Z  8
 
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
@@ -59,15 +60,17 @@ public:
 
   void run2DFilter(int size); // does operation inplace on the GPU
 
-  void run3DFilter(int size); // does operation inplace on the GPU
+//  void run3DFilter(int size); // does operation inplace on the GPU
 
-  void run2DLoopFilter(int size);
+//  void run3DFilterXZ(int size);
+
+//  void run2DLoopFilter(int size);
 
   void run2DRemoveOutliner(int size, int diff);
 
-  void run3DRemoveOutliner(int size, int diff);
+//  void run3DRemoveOutliner(int size, int diff);
 
-  void run2DLoopFilterXZY(int size);
+//  void run2DLoopFilterXZY(int size);
 
   void retreive(); //gets results back from GPU, putting them in the memory that was passed in
   // the constructor

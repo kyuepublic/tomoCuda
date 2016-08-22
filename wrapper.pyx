@@ -6,12 +6,8 @@ cimport numpy as np
 cdef extern from "src/medianFilter.hh":
     cdef cppclass C_mFilter "medianFilter":
         C_mFilter(int, int, int, int)
-        void run3DFilter(int)
         void run2DFilter(int)
-        void run2DLoopFilter(int)
         void run2DRemoveOutliner(int, int)
-        void run3DRemoveOutliner(int, int)
-        void run2DLoopFilterXZY(int)
         void retreive()
         void retreive_to(np.float32_t*)
         void setImage(np.float32_t*)
@@ -31,23 +27,11 @@ cdef class mFilter:
         self.g = new C_mFilter( self.nx, self.ny, self.nz, self.filterSize)
         #print self.nx, self.ny
 
-    def run3DFilter(self, int size):
-        self.g.run3DFilter(size)
-
     def run2DFilter(self, int size):
         self.g.run2DFilter(size)
 
-    def run2DLoopFilter(self, int size):
-        self.g.run2DLoopFilter(size)
-
     def run2DRemoveOutliner(self, int size, int diff):
         self.g.run2DRemoveOutliner(size, diff)
-
-    def run3DRemoveOutliner(self, int size, int diff):
-        self.g.run3DRemoveOutliner(size, diff)
-
-    def run2DLoopFilterXZY(self, int size):
-        self.g.run2DLoopFilterXZY(size)
 
     def retreive_inplace(self):
         self.g.retreive()

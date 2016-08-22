@@ -755,7 +755,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "wrapper.pyx":18
+/* "wrapper.pyx":15
  *         void setImage(np.float32_t*)
  * 
  * cdef class mFilter:             # <<<<<<<<<<<<<<
@@ -1117,14 +1117,11 @@ static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_RuntimeError;
 static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_nx, int __pyx_v_ny, int __pyx_v_nz, int __pyx_v_filterSize); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_2run3DFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_4run2DFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_6run2DLoopFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_8run3DRemoveOutliner(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size, int __pyx_v_diff); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_10run2DLoopFilterXZY(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_16setCuImage(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, PyArrayObject *__pyx_v_arr); /* proto */
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_2run2DFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size); /* proto */
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_4run2DRemoveOutliner(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size, int __pyx_v_diff); /* proto */
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_6retreive_inplace(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_8retreive(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_10setCuImage(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, PyArrayObject *__pyx_v_arr); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_8tomoCuda_mFilter(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1198,7 +1195,7 @@ static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 
-/* "wrapper.pyx":25
+/* "wrapper.pyx":22
  *     cdef int filterSize
  * 
  *     def __cinit__(self, int nx, int ny, int nz,  int filterSize):             # <<<<<<<<<<<<<<
@@ -1241,21 +1238,21 @@ static int __pyx_pw_8tomoCuda_7mFilter_1__cinit__(PyObject *__pyx_v_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ny)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nz)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_filterSize)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -1265,14 +1262,14 @@ static int __pyx_pw_8tomoCuda_7mFilter_1__cinit__(PyObject *__pyx_v_self, PyObje
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_nx = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_nx == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_ny = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_ny == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_nz = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nz == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_filterSize = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_filterSize == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nx = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_nx == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_ny = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_ny == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nz = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nz == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_filterSize = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_filterSize == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("tomoCuda.mFilter.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1290,7 +1287,7 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "wrapper.pyx":26
+  /* "wrapper.pyx":23
  * 
  *     def __cinit__(self, int nx, int ny, int nz,  int filterSize):
  *         self.nx = nx             # <<<<<<<<<<<<<<
@@ -1299,7 +1296,7 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
  */
   __pyx_v_self->nx = __pyx_v_nx;
 
-  /* "wrapper.pyx":27
+  /* "wrapper.pyx":24
  *     def __cinit__(self, int nx, int ny, int nz,  int filterSize):
  *         self.nx = nx
  *         self.ny = ny             # <<<<<<<<<<<<<<
@@ -1308,7 +1305,7 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
  */
   __pyx_v_self->ny = __pyx_v_ny;
 
-  /* "wrapper.pyx":28
+  /* "wrapper.pyx":25
  *         self.nx = nx
  *         self.ny = ny
  *         self.nz = nz             # <<<<<<<<<<<<<<
@@ -1317,7 +1314,7 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
  */
   __pyx_v_self->nz = __pyx_v_nz;
 
-  /* "wrapper.pyx":29
+  /* "wrapper.pyx":26
  *         self.ny = ny
  *         self.nz = nz
  *         self.filterSize = filterSize             # <<<<<<<<<<<<<<
@@ -1326,7 +1323,7 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
  */
   __pyx_v_self->filterSize = __pyx_v_filterSize;
 
-  /* "wrapper.pyx":30
+  /* "wrapper.pyx":27
  *         self.nz = nz
  *         self.filterSize = filterSize
  *         self.g = new C_mFilter( self.nx, self.ny, self.nz, self.filterSize)             # <<<<<<<<<<<<<<
@@ -1335,7 +1332,7 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
  */
   __pyx_v_self->g = new medianFilter(__pyx_v_self->nx, __pyx_v_self->ny, __pyx_v_self->nz, __pyx_v_self->filterSize);
 
-  /* "wrapper.pyx":25
+  /* "wrapper.pyx":22
  *     cdef int filterSize
  * 
  *     def __cinit__(self, int nx, int ny, int nz,  int filterSize):             # <<<<<<<<<<<<<<
@@ -1349,71 +1346,8 @@ static int __pyx_pf_8tomoCuda_7mFilter___cinit__(struct __pyx_obj_8tomoCuda_mFil
   return __pyx_r;
 }
 
-/* "wrapper.pyx":33
+/* "wrapper.pyx":30
  *         #print self.nx, self.ny
- * 
- *     def run3DFilter(self, int size):             # <<<<<<<<<<<<<<
- *         self.g.run3DFilter(size)
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_3run3DFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_3run3DFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size) {
-  int __pyx_v_size;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run3DFilter (wrapper)", 0);
-  assert(__pyx_arg_size); {
-    __pyx_v_size = __Pyx_PyInt_As_int(__pyx_arg_size); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("tomoCuda.mFilter.run3DFilter", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_2run3DFilter(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((int)__pyx_v_size));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_2run3DFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run3DFilter", 0);
-
-  /* "wrapper.pyx":34
- * 
- *     def run3DFilter(self, int size):
- *         self.g.run3DFilter(size)             # <<<<<<<<<<<<<<
- * 
- *     def run2DFilter(self, int size):
- */
-  __pyx_v_self->g->run3DFilter(__pyx_v_size);
-
-  /* "wrapper.pyx":33
- *         #print self.nx, self.ny
- * 
- *     def run3DFilter(self, int size):             # <<<<<<<<<<<<<<
- *         self.g.run3DFilter(size)
- * 
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "wrapper.pyx":36
- *         self.g.run3DFilter(size)
  * 
  *     def run2DFilter(self, int size):             # <<<<<<<<<<<<<<
  *         self.g.run2DFilter(size)
@@ -1421,8 +1355,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_2run3DFilter(struct __pyx_obj_8tomo
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_5run2DFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_5run2DFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size) {
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_3run2DFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size); /*proto*/
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_3run2DFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size) {
   int __pyx_v_size;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -1431,7 +1365,7 @@ static PyObject *__pyx_pw_8tomoCuda_7mFilter_5run2DFilter(PyObject *__pyx_v_self
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("run2DFilter (wrapper)", 0);
   assert(__pyx_arg_size); {
-    __pyx_v_size = __Pyx_PyInt_As_int(__pyx_arg_size); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_size = __Pyx_PyInt_As_int(__pyx_arg_size); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -1439,29 +1373,29 @@ static PyObject *__pyx_pw_8tomoCuda_7mFilter_5run2DFilter(PyObject *__pyx_v_self
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_4run2DFilter(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((int)__pyx_v_size));
+  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_2run2DFilter(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((int)__pyx_v_size));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_4run2DFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size) {
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_2run2DFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("run2DFilter", 0);
 
-  /* "wrapper.pyx":37
+  /* "wrapper.pyx":31
  * 
  *     def run2DFilter(self, int size):
  *         self.g.run2DFilter(size)             # <<<<<<<<<<<<<<
  * 
- *     def run2DLoopFilter(self, int size):
+ *     def run2DRemoveOutliner(self, int size, int diff):
  */
   __pyx_v_self->g->run2DFilter(__pyx_v_size);
 
-  /* "wrapper.pyx":36
- *         self.g.run3DFilter(size)
+  /* "wrapper.pyx":30
+ *         #print self.nx, self.ny
  * 
  *     def run2DFilter(self, int size):             # <<<<<<<<<<<<<<
  *         self.g.run2DFilter(size)
@@ -1475,80 +1409,17 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_4run2DFilter(struct __pyx_obj_8tomo
   return __pyx_r;
 }
 
-/* "wrapper.pyx":39
+/* "wrapper.pyx":33
  *         self.g.run2DFilter(size)
  * 
- *     def run2DLoopFilter(self, int size):             # <<<<<<<<<<<<<<
- *         self.g.run2DLoopFilter(size)
+ *     def run2DRemoveOutliner(self, int size, int diff):             # <<<<<<<<<<<<<<
+ *         self.g.run2DRemoveOutliner(size, diff)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_7run2DLoopFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_7run2DLoopFilter(PyObject *__pyx_v_self, PyObject *__pyx_arg_size) {
-  int __pyx_v_size;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run2DLoopFilter (wrapper)", 0);
-  assert(__pyx_arg_size); {
-    __pyx_v_size = __Pyx_PyInt_As_int(__pyx_arg_size); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("tomoCuda.mFilter.run2DLoopFilter", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_6run2DLoopFilter(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((int)__pyx_v_size));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_6run2DLoopFilter(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run2DLoopFilter", 0);
-
-  /* "wrapper.pyx":40
- * 
- *     def run2DLoopFilter(self, int size):
- *         self.g.run2DLoopFilter(size)             # <<<<<<<<<<<<<<
- * 
- *     def run3DRemoveOutliner(self, int size, int diff):
- */
-  __pyx_v_self->g->run2DLoopFilter(__pyx_v_size);
-
-  /* "wrapper.pyx":39
- *         self.g.run2DFilter(size)
- * 
- *     def run2DLoopFilter(self, int size):             # <<<<<<<<<<<<<<
- *         self.g.run2DLoopFilter(size)
- * 
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "wrapper.pyx":42
- *         self.g.run2DLoopFilter(size)
- * 
- *     def run3DRemoveOutliner(self, int size, int diff):             # <<<<<<<<<<<<<<
- *         self.g.run3DRemoveOutliner(size, diff)
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_9run3DRemoveOutliner(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_9run3DRemoveOutliner(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_5run2DRemoveOutliner(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_5run2DRemoveOutliner(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_size;
   int __pyx_v_diff;
   int __pyx_lineno = 0;
@@ -1556,7 +1427,7 @@ static PyObject *__pyx_pw_8tomoCuda_7mFilter_9run3DRemoveOutliner(PyObject *__py
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run3DRemoveOutliner (wrapper)", 0);
+  __Pyx_RefNannySetupContext("run2DRemoveOutliner (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_size,&__pyx_n_s_diff,0};
     PyObject* values[2] = {0,0};
@@ -1577,11 +1448,11 @@ static PyObject *__pyx_pw_8tomoCuda_7mFilter_9run3DRemoveOutliner(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_diff)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("run3DRemoveOutliner", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("run2DRemoveOutliner", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "run3DRemoveOutliner") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "run2DRemoveOutliner") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1589,106 +1460,43 @@ static PyObject *__pyx_pw_8tomoCuda_7mFilter_9run3DRemoveOutliner(PyObject *__py
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_size = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_diff = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_diff == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_size = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_diff = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_diff == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("run3DRemoveOutliner", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("run2DRemoveOutliner", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("tomoCuda.mFilter.run3DRemoveOutliner", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("tomoCuda.mFilter.run2DRemoveOutliner", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_8run3DRemoveOutliner(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), __pyx_v_size, __pyx_v_diff);
+  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_4run2DRemoveOutliner(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), __pyx_v_size, __pyx_v_diff);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_8run3DRemoveOutliner(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size, int __pyx_v_diff) {
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_4run2DRemoveOutliner(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size, int __pyx_v_diff) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run3DRemoveOutliner", 0);
+  __Pyx_RefNannySetupContext("run2DRemoveOutliner", 0);
 
-  /* "wrapper.pyx":43
+  /* "wrapper.pyx":34
  * 
- *     def run3DRemoveOutliner(self, int size, int diff):
- *         self.g.run3DRemoveOutliner(size, diff)             # <<<<<<<<<<<<<<
- * 
- *     def run2DLoopFilterXZY(self, int size):
- */
-  __pyx_v_self->g->run3DRemoveOutliner(__pyx_v_size, __pyx_v_diff);
-
-  /* "wrapper.pyx":42
- *         self.g.run2DLoopFilter(size)
- * 
- *     def run3DRemoveOutliner(self, int size, int diff):             # <<<<<<<<<<<<<<
- *         self.g.run3DRemoveOutliner(size, diff)
- * 
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "wrapper.pyx":45
- *         self.g.run3DRemoveOutliner(size, diff)
- * 
- *     def run2DLoopFilterXZY(self, int size):             # <<<<<<<<<<<<<<
- *         self.g.run2DLoopFilterXZY(size)
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_11run2DLoopFilterXZY(PyObject *__pyx_v_self, PyObject *__pyx_arg_size); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_11run2DLoopFilterXZY(PyObject *__pyx_v_self, PyObject *__pyx_arg_size) {
-  int __pyx_v_size;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run2DLoopFilterXZY (wrapper)", 0);
-  assert(__pyx_arg_size); {
-    __pyx_v_size = __Pyx_PyInt_As_int(__pyx_arg_size); if (unlikely((__pyx_v_size == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("tomoCuda.mFilter.run2DLoopFilterXZY", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_10run2DLoopFilterXZY(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((int)__pyx_v_size));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_10run2DLoopFilterXZY(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, int __pyx_v_size) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run2DLoopFilterXZY", 0);
-
-  /* "wrapper.pyx":46
- * 
- *     def run2DLoopFilterXZY(self, int size):
- *         self.g.run2DLoopFilterXZY(size)             # <<<<<<<<<<<<<<
+ *     def run2DRemoveOutliner(self, int size, int diff):
+ *         self.g.run2DRemoveOutliner(size, diff)             # <<<<<<<<<<<<<<
  * 
  *     def retreive_inplace(self):
  */
-  __pyx_v_self->g->run2DLoopFilterXZY(__pyx_v_size);
+  __pyx_v_self->g->run2DRemoveOutliner(__pyx_v_size, __pyx_v_diff);
 
-  /* "wrapper.pyx":45
- *         self.g.run3DRemoveOutliner(size, diff)
+  /* "wrapper.pyx":33
+ *         self.g.run2DFilter(size)
  * 
- *     def run2DLoopFilterXZY(self, int size):             # <<<<<<<<<<<<<<
- *         self.g.run2DLoopFilterXZY(size)
+ *     def run2DRemoveOutliner(self, int size, int diff):             # <<<<<<<<<<<<<<
+ *         self.g.run2DRemoveOutliner(size, diff)
  * 
  */
 
@@ -1699,8 +1507,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_10run2DLoopFilterXZY(struct __pyx_o
   return __pyx_r;
 }
 
-/* "wrapper.pyx":48
- *         self.g.run2DLoopFilterXZY(size)
+/* "wrapper.pyx":36
+ *         self.g.run2DRemoveOutliner(size, diff)
  * 
  *     def retreive_inplace(self):             # <<<<<<<<<<<<<<
  *         self.g.retreive()
@@ -1708,24 +1516,24 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_10run2DLoopFilterXZY(struct __pyx_o
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_13retreive_inplace(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_13retreive_inplace(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_7retreive_inplace(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_7retreive_inplace(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("retreive_inplace (wrapper)", 0);
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_6retreive_inplace(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self) {
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_6retreive_inplace(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("retreive_inplace", 0);
 
-  /* "wrapper.pyx":49
+  /* "wrapper.pyx":37
  * 
  *     def retreive_inplace(self):
  *         self.g.retreive()             # <<<<<<<<<<<<<<
@@ -1734,8 +1542,8 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(struct __pyx_obj
  */
   __pyx_v_self->g->retreive();
 
-  /* "wrapper.pyx":48
- *         self.g.run2DLoopFilterXZY(size)
+  /* "wrapper.pyx":36
+ *         self.g.run2DRemoveOutliner(size, diff)
  * 
  *     def retreive_inplace(self):             # <<<<<<<<<<<<<<
  *         self.g.retreive()
@@ -1749,7 +1557,7 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "wrapper.pyx":51
+/* "wrapper.pyx":39
  *         self.g.retreive()
  * 
  *     def retreive(self):             # <<<<<<<<<<<<<<
@@ -1758,19 +1566,19 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_12retreive_inplace(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_15retreive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_15retreive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_9retreive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_9retreive(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("retreive (wrapper)", 0);
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_14retreive(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_8retreive(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self) {
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_8retreive(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self) {
   PyArrayObject *__pyx_v_a = 0;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_a;
   __Pyx_Buffer __pyx_pybuffer_a;
@@ -1793,46 +1601,46 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   __pyx_pybuffernd_a.data = NULL;
   __pyx_pybuffernd_a.rcbuffer = &__pyx_pybuffer_a;
 
-  /* "wrapper.pyx":52
+  /* "wrapper.pyx":40
  * 
  *     def retreive(self):
  *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  *         self.g.retreive_to(&a[0])
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_self->nx * __pyx_v_self->ny)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_self->nx * __pyx_v_self->ny)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_a.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_a = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_a.rcbuffer->pybuffer.buf = NULL;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     } else {__pyx_pybuffernd_a.diminfo[0].strides = __pyx_pybuffernd_a.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_a.diminfo[0].shape = __pyx_pybuffernd_a.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -1840,7 +1648,7 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   __pyx_v_a = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "wrapper.pyx":54
+  /* "wrapper.pyx":42
  *         cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny, dtype=np.float32)
  *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  *         self.g.retreive_to(&a[0])             # <<<<<<<<<<<<<<
@@ -1855,11 +1663,11 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   } else if (unlikely(__pyx_t_7 >= __pyx_pybuffernd_a.diminfo[0].shape)) __pyx_t_8 = 0;
   if (unlikely(__pyx_t_8 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_8);
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_v_self->g->retreive_to((&(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_a.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_a.diminfo[0].strides))));
 
-  /* "wrapper.pyx":55
+  /* "wrapper.pyx":43
  *         # cdef np.ndarray[ndim=1, dtype=np.float32_t] a = np.zeros(self.nx*self.ny*self.nz, dtype=np.float32)
  *         self.g.retreive_to(&a[0])
  *         return a             # <<<<<<<<<<<<<<
@@ -1871,7 +1679,7 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   __pyx_r = ((PyObject *)__pyx_v_a);
   goto __pyx_L0;
 
-  /* "wrapper.pyx":51
+  /* "wrapper.pyx":39
  *         self.g.retreive()
  * 
  *     def retreive(self):             # <<<<<<<<<<<<<<
@@ -1902,7 +1710,7 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
   return __pyx_r;
 }
 
-/* "wrapper.pyx":57
+/* "wrapper.pyx":45
  *         return a
  * 
  *     def setCuImage(self, np.ndarray[ndim=1, dtype=np.float32_t] arr):             # <<<<<<<<<<<<<<
@@ -1910,16 +1718,16 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_14retreive(struct __pyx_obj_8tomoCu
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_17setCuImage(PyObject *__pyx_v_self, PyObject *__pyx_v_arr); /*proto*/
-static PyObject *__pyx_pw_8tomoCuda_7mFilter_17setCuImage(PyObject *__pyx_v_self, PyObject *__pyx_v_arr) {
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_11setCuImage(PyObject *__pyx_v_self, PyObject *__pyx_v_arr); /*proto*/
+static PyObject *__pyx_pw_8tomoCuda_7mFilter_11setCuImage(PyObject *__pyx_v_self, PyObject *__pyx_v_arr) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
   CYTHON_UNUSED int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("setCuImage (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_arr), __pyx_ptype_5numpy_ndarray, 1, "arr", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_16setCuImage(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((PyArrayObject *)__pyx_v_arr));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_arr), __pyx_ptype_5numpy_ndarray, 1, "arr", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_8tomoCuda_7mFilter_10setCuImage(((struct __pyx_obj_8tomoCuda_mFilter *)__pyx_v_self), ((PyArrayObject *)__pyx_v_arr));
 
   /* function exit code */
   goto __pyx_L0;
@@ -1930,7 +1738,7 @@ static PyObject *__pyx_pw_8tomoCuda_7mFilter_17setCuImage(PyObject *__pyx_v_self
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8tomoCuda_7mFilter_16setCuImage(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, PyArrayObject *__pyx_v_arr) {
+static PyObject *__pyx_pf_8tomoCuda_7mFilter_10setCuImage(struct __pyx_obj_8tomoCuda_mFilter *__pyx_v_self, PyArrayObject *__pyx_v_arr) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_arr;
   __Pyx_Buffer __pyx_pybuffer_arr;
   PyObject *__pyx_r = NULL;
@@ -1947,11 +1755,11 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_16setCuImage(struct __pyx_obj_8tomo
   __pyx_pybuffernd_arr.rcbuffer = &__pyx_pybuffer_arr;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_arr.rcbuffer->pybuffer, (PyObject*)__pyx_v_arr, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_arr.rcbuffer->pybuffer, (PyObject*)__pyx_v_arr, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_arr.diminfo[0].strides = __pyx_pybuffernd_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_arr.diminfo[0].shape = __pyx_pybuffernd_arr.rcbuffer->pybuffer.shape[0];
 
-  /* "wrapper.pyx":58
+  /* "wrapper.pyx":46
  * 
  *     def setCuImage(self, np.ndarray[ndim=1, dtype=np.float32_t] arr):
  *         self.g.setImage(&arr[0])             # <<<<<<<<<<<<<<
@@ -1964,11 +1772,11 @@ static PyObject *__pyx_pf_8tomoCuda_7mFilter_16setCuImage(struct __pyx_obj_8tomo
   } else if (unlikely(__pyx_t_1 >= __pyx_pybuffernd_arr.diminfo[0].shape)) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_v_self->g->setImage((&(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_arr.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_arr.diminfo[0].strides))));
 
-  /* "wrapper.pyx":57
+  /* "wrapper.pyx":45
  *         return a
  * 
  *     def setCuImage(self, np.ndarray[ndim=1, dtype=np.float32_t] arr):             # <<<<<<<<<<<<<<
@@ -4021,14 +3829,11 @@ static void __pyx_tp_dealloc_8tomoCuda_mFilter(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_8tomoCuda_mFilter[] = {
-  {"run3DFilter", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_3run3DFilter, METH_O, 0},
-  {"run2DFilter", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_5run2DFilter, METH_O, 0},
-  {"run2DLoopFilter", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_7run2DLoopFilter, METH_O, 0},
-  {"run3DRemoveOutliner", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_9run3DRemoveOutliner, METH_VARARGS|METH_KEYWORDS, 0},
-  {"run2DLoopFilterXZY", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_11run2DLoopFilterXZY, METH_O, 0},
-  {"retreive_inplace", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_13retreive_inplace, METH_NOARGS, 0},
-  {"retreive", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_15retreive, METH_NOARGS, 0},
-  {"setCuImage", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_17setCuImage, METH_O, 0},
+  {"run2DFilter", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_3run2DFilter, METH_O, 0},
+  {"run2DRemoveOutliner", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_5run2DRemoveOutliner, METH_VARARGS|METH_KEYWORDS, 0},
+  {"retreive_inplace", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_7retreive_inplace, METH_NOARGS, 0},
+  {"retreive", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_9retreive, METH_NOARGS, 0},
+  {"setCuImage", (PyCFunction)__pyx_pw_8tomoCuda_7mFilter_11setCuImage, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -4309,9 +4114,9 @@ PyMODINIT_FUNC PyInit_tomoCuda(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_8tomoCuda_mFilter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_8tomoCuda_mFilter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_8tomoCuda_mFilter.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "mFilter", (PyObject *)&__pyx_type_8tomoCuda_mFilter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "mFilter", (PyObject *)&__pyx_type_8tomoCuda_mFilter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_8tomoCuda_mFilter = &__pyx_type_8tomoCuda_mFilter;
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
@@ -4340,7 +4145,7 @@ PyMODINIT_FUNC PyInit_tomoCuda(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wrapper.pyx":57
+  /* "wrapper.pyx":45
  *         return a
  * 
  *     def setCuImage(self, np.ndarray[ndim=1, dtype=np.float32_t] arr):             # <<<<<<<<<<<<<<

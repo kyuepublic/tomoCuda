@@ -19,12 +19,10 @@ medianFilter::medianFilter (/*float* array_host_,*/ int nx_, int ny_, int nz_, i
 
   filterSize = filterSize_;
 
-
   // inlength is the 2d image size of each image
   // outlength is the 2d image size of each image
 //  inlength=(nx+filterSize-1)*(ny+filterSize-1)*nz;
 //  outlength = nx*ny*nz;
-
 
   // inlength is the 2d image size of each image
   inlength=(nx+filterSize-1)*(ny+filterSize-1);
@@ -69,9 +67,10 @@ medianFilter::~medianFilter()
 void medianFilter::run2DFilter(int size)
 {
 
+
 //  cudaError_t err0 = cudaMalloc((void**) &v_device, size*size*sizeof(float));
 //  cudaMemset(v_device, 0, size*size*sizeof(float));
-  double iStart = cpuSecond();
+//  double iStart = cpuSecond();
 
   int block_size_x = BLOCK_X;
   int block_size_y = BLOCK_Y;
@@ -87,21 +86,29 @@ void medianFilter::run2DFilter(int size)
   switch(filterSize)
   {
     case 2:
-      kernel2<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel2<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      kernel2ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
 //      kernel2MS<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 3:
-      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      kernel3S<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      kernel3ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+//      kernel3MES<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 4:
-      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      kernel4ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 5:
-      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      kernel5ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 6:
-      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      kernel6ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
+    case 7:
+      kernel7ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
+    case 8:
+      kernel8ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 15:
 //      kernel15<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
@@ -115,15 +122,13 @@ void medianFilter::run2DFilter(int size)
 
   }
 
-
-
   // add these to synchronzie the thread
   cudaDeviceSynchronize();
 
-  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
 
-  cudaError_t err = cudaGetLastError();
-  assert(err == 0);
+//  cudaError_t err = cudaGetLastError();
+//  assert(err == 0);
 //  gpuErrchk( cudaPeekAtLastError());
 //  gpuErrchk( cudaDeviceSynchronize() );
 
@@ -133,7 +138,7 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
 {
 
 
-  double iStart = cpuSecond();
+//  double iStart = cpuSecond();
 
   int block_size_x = BLOCK_X;
   int block_size_y = BLOCK_Y;
@@ -144,25 +149,31 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
 
   switch(filterSize)
   {
-//    case 2:
-//      kernel2<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 3:
-//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 4:
-//      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 5:
-//      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 6:
-//      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
+    case 2:
+      reomveOutliner2D2ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 3:
+      reomveOutliner2D3ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 4:
+      reomveOutliner2D4ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 5:
+      reomveOutliner2D5ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 6:
+      reomveOutliner2D6ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 7:
+      reomveOutliner2D7ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 8:
+      reomveOutliner2D8ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
     case 15:
 //      reomveOutliner2D15<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
-
-      reomveOutliner2D15M<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+//      reomveOutliner2D15M<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      reomveOutliner2D15ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
       break;
     default:
       break;
@@ -173,193 +184,7 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
   // add these to synchronzie the thread
   cudaDeviceSynchronize();
 
-  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
-
-  cudaError_t err = cudaGetLastError();
-  assert(err == 0);
-}
-
-
-void medianFilter::run3DRemoveOutliner(int size, int diff)
-{
-
-  double iStart = cpuSecond();
-
-  int block_size_x = BLOCK_X;
-  int block_size_y = BLOCK_Y;
-  int block_size_z = BLOCK_Z;
-
-  dim3 gridSize(((nx+block_size_x-1)/block_size_x), ((ny+block_size_y-1)/block_size_y), ((nz+block_size_z-1)/block_size_z));
-  dim3 blockSize(block_size_x, block_size_y, block_size_z);
-
-
-  switch(filterSize)
-  {
-    case 2:
-      reomveOutliner3D2<<<gridSize,blockSize>>>(nx, ny, nz, diff, array_device_out, array_device_in);
-      break;
-//    case 3:
-//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 4:
-//      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 5:
-//      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 6:
-//      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-    case 15:
-      reomveOutliner3D15<<<gridSize,blockSize>>>(nx, ny, nz, diff, array_device_out, array_device_in);
-      break;
-    default:
-      break;
-
-  }
-
-
-  // add these to synchronzie the thread
-//  cudaDeviceSynchronize();
-
-  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
-
-  cudaError_t err = cudaGetLastError();
-  assert(err == 0);
-}
-
-
-void medianFilter::run3DFilter(int size)
-{
-
-  double iStart = cpuSecond();
-
-  int block_size_x = BLOCK_X;
-  int block_size_y = BLOCK_Y;
-  int block_size_z = BLOCK_Z;
-
-  dim3 gridSize(((nx+block_size_x-1)/block_size_x), ((ny+block_size_y-1)/block_size_y), ((nz+block_size_z-1)/block_size_z));
-  dim3 blockSize(block_size_x, block_size_y, block_size_z);
-
-  switch(filterSize)
-  {
-    case 2:
-      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
-      break;
-//    case 3:
-//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 4:
-//      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 5:
-//      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 6:
-//      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-    case 15:
-      kernel3D15<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
-      break;
-    default:
-      break;
-
-  }
-
-
-
-  // add these to synchronzie the thread
-  cudaDeviceSynchronize();
-
-  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
-
-  cudaError_t err = cudaGetLastError();
-  assert(err == 0);
-}
-
-void medianFilter::run2DLoopFilter(int size)
-{
-
-  double iStart = cpuSecond();
-
-
-  int block_size_x = BLOCK_X;
-  int block_size_y = BLOCK_Y;
-
-  dim3 gridSize((nx+block_size_x-1)/block_size_x, (ny+block_size_y-1)/block_size_y);
-  dim3 blockSize(block_size_x,block_size_y);
-
-  switch(filterSize)
-  {
-    case 2:
-      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
-      break;
-//    case 3:
-//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 4:
-//      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 5:
-//      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 6:
-//      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-    case 15:
-      kernelLool3D15<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
-      break;
-    default:
-      break;
-
-  }
-  // add these to synchronzie the thread
-  cudaDeviceSynchronize();
-
-  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
-
-  cudaError_t err = cudaGetLastError();
-  assert(err == 0);
-}
-
-void medianFilter::run2DLoopFilterXZY(int size)
-{
-
-  double iStart = cpuSecond();
-  int block_size_x = BLOCK_X;
-  int block_size_y = BLOCK_Y;
-
-  dim3 gridSize((nx+block_size_x-1)/block_size_x, (nz+block_size_y-1)/block_size_y);
-  dim3 blockSize(block_size_x,block_size_y);
-
-  switch(filterSize)
-  {
-    case 2:
-      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
-      break;
-//    case 3:
-//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 4:
-//      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 5:
-//      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-//    case 6:
-//      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      break;
-    case 15:
-      kernelLool3D15XZY<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
-      break;
-    default:
-      break;
-
-  }
-  // add these to synchronzie the thread
-  cudaDeviceSynchronize();
-
-  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
 
   cudaError_t err = cudaGetLastError();
   assert(err == 0);
@@ -393,6 +218,7 @@ void medianFilter::retreive_to (float* array_host_)
   assert(err == 0);
 }
 
+
 void medianFilter::setImage(float* array_host_)
 {
 
@@ -414,3 +240,247 @@ double medianFilter::cpuSecond() {
    return ((double)tp.tv_sec + (double)tp.tv_usec*1.e-6);
 }
 
+//void medianFilter::run3DRemoveOutliner(int size, int diff)
+//{
+//
+//  double iStart = cpuSecond();
+//
+//  int block_size_x = BLOCK_X;
+//  int block_size_y = BLOCK_Y;
+//  int block_size_z = BLOCK_Z;
+//
+//  dim3 gridSize(((nx+block_size_x-1)/block_size_x), ((ny+block_size_y-1)/block_size_y), ((nz+block_size_z-1)/block_size_z));
+//  dim3 blockSize(block_size_x, block_size_y, block_size_z);
+//
+//
+//  switch(filterSize)
+//  {
+//    case 2:
+//      reomveOutliner3D2<<<gridSize,blockSize>>>(nx, ny, nz, diff, array_device_out, array_device_in);
+//      break;
+////    case 3:
+////      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 4:
+////      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 5:
+////      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 6:
+////      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+//    case 15:
+//      reomveOutliner3D15<<<gridSize,blockSize>>>(nx, ny, nz, diff, array_device_out, array_device_in);
+//      break;
+//    default:
+//      break;
+//
+//  }
+//
+//
+//  // add these to synchronzie the thread
+////  cudaDeviceSynchronize();
+//
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//
+//  cudaError_t err = cudaGetLastError();
+//  assert(err == 0);
+//}
+
+
+//void medianFilter::run3DFilter(int size)
+//{
+//
+//  double iStart = cpuSecond();
+//
+//  int block_size_x = BLOCK_X;
+//  int block_size_y = BLOCK_Y;
+//  int block_size_z = BLOCK_Z;
+//
+//  dim3 gridSize(((nx+block_size_x-1)/block_size_x), ((ny+block_size_y-1)/block_size_y), ((nz+block_size_z-1)/block_size_z));
+//  dim3 blockSize(block_size_x, block_size_y, block_size_z);
+//
+//  switch(filterSize)
+//  {
+//    case 2:
+//      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+////    case 3:
+////      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 4:
+////      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 5:
+////      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 6:
+////      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+//    case 15:
+//      kernel3D15<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+//    default:
+//      break;
+//
+//  }
+//
+//  gpuErrchk( cudaPeekAtLastError());
+//  gpuErrchk( cudaDeviceSynchronize() );
+//
+//  // add these to synchronzie the thread
+////  cudaDeviceSynchronize();
+//
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//
+////  cudaError_t err = cudaGetLastError();
+////  assert(err == 0);
+//}
+
+//void medianFilter::run3DFilterXZ(int size)
+//{
+//
+//  double iStart = cpuSecond();
+//
+//  int block_size_x = BLOCK_X;
+//  int block_size_y = BLOCK_Y;
+//  int block_size_z = BLOCK_Z;
+//
+//
+//
+//  int tmp =  nz;
+//  nz = ny;
+//  ny = tmp;
+//
+//  dim3 gridSize(((nx+block_size_x-1)/block_size_x), ((ny+block_size_y-1)/block_size_y), ((nz+block_size_z-1)/block_size_z));
+//  dim3 blockSize(block_size_x, block_size_y, block_size_z);
+//
+//
+//
+//  switch(filterSize)
+//  {
+//    case 2:
+//      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+////    case 3:
+////      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 4:
+////      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 5:
+////      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 6:
+////      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+//    case 15:
+////      kernel3D15XZ<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      kernel3D15XZME<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+//    default:
+//      break;
+//
+//  }
+//
+//
+//  gpuErrchk( cudaPeekAtLastError());
+//  gpuErrchk( cudaDeviceSynchronize() );
+//
+//  // add these to synchronzie the thread
+////  cudaDeviceSynchronize();
+//
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//
+////  cudaError_t err = cudaGetLastError();
+////  assert(err == 0);
+//}
+
+//void medianFilter::run2DLoopFilter(int size)
+//{
+//
+//  double iStart = cpuSecond();
+//
+//
+//  int block_size_x = BLOCK_X;
+//  int block_size_y = BLOCK_Y;
+//
+//  dim3 gridSize((nx+block_size_x-1)/block_size_x, (ny+block_size_y-1)/block_size_y);
+//  dim3 blockSize(block_size_x,block_size_y);
+//
+//  switch(filterSize)
+//  {
+//    case 2:
+//      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+////    case 3:
+////      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 4:
+////      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 5:
+////      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 6:
+////      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+//    case 15:
+//      kernelLool3D15<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+//    default:
+//      break;
+//
+//  }
+//  // add these to synchronzie the thread
+//  cudaDeviceSynchronize();
+//
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//
+//  cudaError_t err = cudaGetLastError();
+//  assert(err == 0);
+//}
+
+//void medianFilter::run2DLoopFilterXZY(int size)
+//{
+//
+//  double iStart = cpuSecond();
+//  int block_size_x = BLOCK_X;
+//  int block_size_y = BLOCK_Y;
+//
+//  dim3 gridSize((nx+block_size_x-1)/block_size_x, (nz+block_size_y-1)/block_size_y);
+//  dim3 blockSize(block_size_x,block_size_y);
+//
+//  switch(filterSize)
+//  {
+//    case 2:
+//      kernel3D2<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+////    case 3:
+////      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 4:
+////      kernel4<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 5:
+////      kernel5<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+////    case 6:
+////      kernel6<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+////      break;
+//    case 15:
+//      kernelLool3D15XZY<<<gridSize,blockSize>>>(nx, ny, nz, array_device_out, array_device_in);
+//      break;
+//    default:
+//      break;
+//
+//  }
+//  // add these to synchronzie the thread
+//  cudaDeviceSynchronize();
+//
+//  printf("total execution time for this kernel took %f sec \n",(cpuSecond() - iStart));
+//
+//  cudaError_t err = cudaGetLastError();
+//  assert(err == 0);
+//}
