@@ -138,6 +138,7 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
 {
 
 
+
 //  double iStart = cpuSecond();
 
   int block_size_x = BLOCK_X;
@@ -145,6 +146,7 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
 
   dim3 blocks((nx+block_size_x-1)/block_size_x, (ny+block_size_y-1)/block_size_y);
   dim3 threads(block_size_x,block_size_y);
+
 
 
   switch(filterSize)

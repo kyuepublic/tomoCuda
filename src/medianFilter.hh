@@ -10,7 +10,7 @@ THis is the class for median filter
 
 
 #define BLOCK_X  8
-#define BLOCK_Y  2
+#define BLOCK_Y  8
 #define BLOCK_Z  8
 
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
