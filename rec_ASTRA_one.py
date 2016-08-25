@@ -239,6 +239,10 @@ num_iter = 100
 ##################################### Inputs ##########################################################
 file_name = '/data2/XiaoData/reader1/proj_4.hdf' # best center = 1268
 output_name = '/data2/XiaoData/reader1/Test/test_Astra_recon_'
+
+# file_name = './proj_4.hdf'
+# output_name = './Test/test_Astra_recon_'
+
 #file_name = '/local/dataraid/2015_11/Debbie/F11_60nmZP_721proj_8000eV_5X_3s_61.h5' # best center = 1198
 #output_name = '/local/dataraid/2015_11/Debbie/F11_60nmZP_721proj_8000eV_5X_3s_61_binned2_Astra_recon/F11_60nmZP_721proj_8000eV_5X_3s_61_binned2_Astra_recon_'
 #file_name = '/local/dataraid/2015_11/Debbie/F14_60nmZP_721proj_8000eV_5X_3s_62.h5' # best center = 1266
