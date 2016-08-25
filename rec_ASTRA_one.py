@@ -3,6 +3,7 @@ import tomopy
 import time
 import numpy as np
 import timeit
+import tomoCuda
 
 proj_type='cuda'
 
@@ -56,6 +57,7 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
     print "Reconstructing [%d] slices from slice [%d] to [%d] in [%d] chunks of [%d] slices each" % ((sino_end - sino_start), sino_start, sino_end, chunks, nSino_per_chunk)
     strt = 0
     for iChunk in range(0,chunks):
+        diff = 0
         print '\n  -- chunk # %i' % (iChunk+1)
         sino_chunk_start = sino_start + nSino_per_chunk*iChunk 
         sino_chunk_end = sino_start + nSino_per_chunk*(iChunk+1)
@@ -68,6 +70,8 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         # Read HDF5 file.
         prj, flat, dark = tomopy.io.exchange.read_aps_32id(file_name, sino=(sino_chunk_start, sino_chunk_end))
         stop = timeit.default_timer()
+        print prj.shape
+        diff += stop - start
         print("end read data", stop-start)
 
 
@@ -75,6 +79,7 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         # Manage the missing angles:
         theta  = tomopy.angles(prj.shape[0])
         stop = timeit.default_timer()
+        diff += stop - start
         print("end angles", stop-start)
 
 #        theta = np.concatenate((theta[0:miss_angles[0]], theta[miss_angles[1]+1:-1]))
@@ -86,26 +91,70 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         # normalize the prj
         prj = tomopy.normalize(prj, flat, dark)
         stop = timeit.default_timer()
+        diff += stop - start
         print("end normalize", stop-start)
 
 
         print '\n start remove stripe'
         # remove ring artefacts
-        prj = prj[4:100,:,4:104]
         start = timeit.default_timer()
-        prj = tomopy.remove_stripe_ti(prj, 2, ncore=1)
+        print prj.shape
+
+        prj = tomopy.remove_stripe_ti(prj, 2)
         stop = timeit.default_timer()
+        diff += stop - start
         print("end remove stripe", stop-start)
 
 
         print '\n start median_filter'
         print prj.shape
+        print medfilt_size
+
+
+
+        prjsize = prj.shape[0]
+        size = medfilt_size
+        loffset = size/2
+        roffset = (size-1)/2
+        imsizex =prj.shape[2] # image size for the input
+        imsizey = prj.shape[1]
+
+        filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
+        resultcombine = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
+
+        start = timeit.default_timer()
+
+        for step in range (0,prjsize):
+            im_noisecu=prj[step].astype(np.float32)
+            im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
+            im_noisecu = im_noisecu.flatten()
+
+
+            filter.setCuImage(im_noisecu)
+            filter.run2DFilter(size)
+            results2 = filter.retreive()
+            results2=results2.reshape(imsizey,imsizex)
+            resultcombine[step]=results2
+
+        stop = timeit.default_timer()
+        diff2= stop - start
+        print("end gpu median filter", stop-start)
+
+
+
+
         start = timeit.default_timer()
         # Median filter:
         if medfilt_size:
             prj = tomopy.median_filter(prj,size=medfilt_size)
         stop = timeit.default_timer()
+        diff1=stop-start
+        diff += diff1
         print("end median filter", stop-start)
+
+        print("the times gpu over cpu is", diff1/diff2)
+        print not np.any(prj-resultcombine)
+
 
         start = timeit.default_timer()
         print '\n start downsample'
@@ -113,6 +162,7 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
             prj = tomopy.downsample(prj, level=level)
             prj = tomopy.downsample(prj, level=level, axis=1)
         stop = timeit.default_timer()
+        diff += stop - start
         print("end downsample", stop-start)
 
         # reconstruct 
@@ -127,8 +177,9 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         rec = tomopy.recon(prj,theta,center=best_center/pow(2,level), algorithm='gridrec')
 
         stop = timeit.default_timer()
+        diff += stop - start
         print("end reconstruction", stop-start)
-
+        print("the percentage is", diff1/diff)
         print output_name
 
         # Write data as stack of TIFs.

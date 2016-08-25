@@ -9,8 +9,8 @@ THis is the class for median filter
 #include <stdio.h>
 
 
-#define BLOCK_X  8
-#define BLOCK_Y  8
+#define BLOCK_X  16
+#define BLOCK_Y  16
 #define BLOCK_Z  8
 
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }

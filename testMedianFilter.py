@@ -82,10 +82,10 @@ def testMedianFilter2D():
     # prjsize is z, imsize is x, y.
 
     # print combined
-    size = 5 # window size for the filter
-    imsizex =3000 # image size for the input
-    imsizey = 200
-    prjsize= 1000
+    size = 7 # window size for the filter
+    imsizex =2560 # image size for the input
+    imsizey = 204
+    prjsize= 721
     diff = 2000
 
 
@@ -106,7 +106,8 @@ def testMedianFilter2D():
     diff2 = 0
     # create combined noise matrix 3D
     for step in range (5,5+prjsize):
-        im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
+        # im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
+        im_noise = np.random.rand(imsizey, imsizex)
         im_noise = im_noise.astype(np.float32)
         combinedMed[step-5]=im_noise
 
@@ -347,10 +348,10 @@ def testRemoveOutliner1():
 
 # testMedianFilter1()
 
-# testMedianFilter2D()
+testMedianFilter2D()
 
 # testMedianFilter3()
 
 # testMedianFilterXZ()
 
-testRemoveOutliner1()
+# testRemoveOutliner1()
