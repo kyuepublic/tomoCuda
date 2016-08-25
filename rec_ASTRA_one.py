@@ -156,6 +156,42 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         print not np.any(prj-resultcombine)
 
 
+
+        print '\n start outlier remove'
+        odiff = 20
+        start = timeit.default_timer()
+
+        for step in range (0,prjsize):
+            im_noisecu=prj[step].astype(np.float32)
+            im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
+            im_noisecu = im_noisecu.flatten()
+
+
+            filter.setCuImage(im_noisecu)
+            filter.run2DRemoveOutliner(size, odiff)
+            results2 = filter.retreive()
+            results2=results2.reshape(imsizey,imsizex)
+            resultcombine[step]=results2
+
+        stop = timeit.default_timer()
+        diff2= stop - start
+        print("end gpu outlier remove", stop-start)
+
+
+        start = timeit.default_timer()
+        # Median filter:
+        if medfilt_size:
+            prj = tomopy.misc.corr.remove_outlier(prj, odiff, size )
+            # prj = tomopy.median_filter(prj,size=medfilt_size)
+        stop = timeit.default_timer()
+        diff1=stop-start
+        print("end outlier removal", stop-start)
+
+        print("the times gpu over cpu is", diff1/diff2)
+        print not np.any(prj-resultcombine)
+
+
+
         start = timeit.default_timer()
         print '\n start downsample'
         if level>0:
@@ -214,6 +250,6 @@ output_name = '/data2/XiaoData/reader1/Test/test_Astra_recon_'
 #output_name = '/local/dataraid/2015_11/Debbie/test/test_'
 
 reconstruction_test = False
-best_center = 1268; sino_start = 0; sino_end = 2048; miss_angles = [0,721]; level = 1; medfilt_size = 5
+best_center = 1268; sino_start = 0; sino_end = 2048; miss_angles = [0,721]; level = 1; medfilt_size = 7
 if reconstruction_test: rec_test(file_name, sino_start, sino_end, astra_method, extra_options, num_iter)
 else: rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_iter)
