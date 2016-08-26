@@ -312,7 +312,7 @@ def testRemoveOutliner1():
     for step in range (5,5+prjsize):
         # im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
         im_noise = np.random.rand(imsizey, imsizex)
-        im_noise = im_noise.astype(np.float32)
+        im_noise = im_noise.astype(np.int32)
         combinedMed[step-5]=im_noise
 
         im_noisecu = im_noise.astype(np.float32)
@@ -334,6 +334,7 @@ def testRemoveOutliner1():
     print("end remove outlier", diff2)
 
     start = timeit.default_timer()
+
 
     results1 = tomopy.misc.corr.remove_outlier(combinedMed, diff, size )
 
