@@ -112,34 +112,10 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
 
 
 
-        # prjsize = prj.shape[0]
-        # size = medfilt_size
-        # loffset = size/2
-        # roffset = (size-1)/2
-        # imsizex =prj.shape[2] # image size for the input
-        # imsizey = prj.shape[1]
-        #
-        # filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
-        # resultcombine = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
-
-
         start = timeit.default_timer()
-        # for step in range (0,prjsize):
-        #     im_noisecu=prj[step].astype(np.float32)
-        #     im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
-        #     im_noisecu = im_noisecu.flatten()
-        #
-        #
-        #     filter.setCuImage(im_noisecu)
-        #     filter.run2DFilter(size)
-        #     results2 = filter.retreive()
-        #     results2=results2.reshape(imsizey,imsizex)
-        #     resultcombine[step]=results2
-
-
         resultcombine=tomopy.median_filter_GPU(prj, medfilt_size)
         stop = timeit.default_timer()
-        diff2= stop - start
+        mdiff2= stop - start
         print("end gpu median filter", stop-start)
 
 
@@ -148,14 +124,14 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         start = timeit.default_timer()
         # Median filter:
         if medfilt_size:
-            prj = tomopy.median_filter(prj,size=medfilt_size)
+            prj = tomopy.median_filter(prj,size=medfilt_size, ncore = 1)
         stop = timeit.default_timer()
-        diff1=stop-start
-        alldiff=diff1
-        diff += diff1
+        mdiff1=stop-start
+        alldiff=mdiff1
+        diff += mdiff1
         print("end median filter", stop-start)
 
-        print("the times gpu over cpu is", diff1/diff2)
+        print("the times gpu over cpu is", mdiff1/mdiff2)
         print not np.any(prj-resultcombine)
 
 
@@ -163,38 +139,25 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         print '\n start outlier remove'
         odiff = 20
         start = timeit.default_timer()
-        #
-        # for step in range (0,prjsize):
-        #     im_noisecu=prj[step].astype(np.float32)
-        #     im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
-        #     im_noisecu = im_noisecu.flatten()
-        #
-        #
-        #     filter.setCuImage(im_noisecu)
-        #     filter.run2DRemoveOutliner(size, odiff)
-        #     results2 = filter.retreive()
-        #     results2=results2.reshape(imsizey,imsizex)
-        #     resultcombine[step]=results2
-
         resultcombine = tomopy.remove_outlier_GPU(prj, odiff, medfilt_size)
         stop = timeit.default_timer()
-        diff2= stop - start
+        rdiff2= stop - start
         print("end gpu outlier remove", stop-start)
 
 
         start = timeit.default_timer()
         # Median filter:
         if medfilt_size:
-            prj = tomopy.misc.corr.remove_outlier(prj, odiff, medfilt_size )
+            prj = tomopy.misc.corr.remove_outlier(prj, odiff, medfilt_size, ncore = 1 )
             # prj = tomopy.median_filter(prj,size=medfilt_size)
 
         stop = timeit.default_timer()
-        diff1=stop-start
-        alldiff+=diff1
-        diff+=diff1
+        rdiff1=stop-start
+        alldiff+=rdiff1
+        diff+=rdiff1
         print("end outlier removal", stop-start)
 
-        print("the times gpu over cpu is", diff1/diff2)
+        print("the times gpu over cpu is", rdiff1/rdiff2)
         print not np.any(prj-resultcombine)
 
 
@@ -222,7 +185,8 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         stop = timeit.default_timer()
         diff += stop - start
         print("end reconstruction", stop-start)
-        print("the percentage is", alldiff/diff)
+        print "the percentage is %f, %f" % (mdiff1/diff, rdiff1/diff)
+        print("the total diff is", diff)
         print output_name
 
         # Write data as stack of TIFs.
@@ -261,6 +225,6 @@ output_name = '/data2/XiaoData/reader1/Test/test_Astra_recon_'
 #output_name = '/local/dataraid/2015_11/Debbie/test/test_'
 
 reconstruction_test = False
-best_center = 1268; sino_start = 0; sino_end = 2048; miss_angles = [0,721]; level = 1; medfilt_size = 4
+best_center = 1268; sino_start = 0; sino_end = 2048; miss_angles = [0,721]; level = 1; medfilt_size = 5
 if reconstruction_test: rec_test(file_name, sino_start, sino_end, astra_method, extra_options, num_iter)
 else: rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_iter)
