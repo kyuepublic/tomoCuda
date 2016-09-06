@@ -83,6 +83,7 @@ void medianFilter::run2DFilter(int size)
 //  out.ptr=array_device_out;
 //  out.dims[0]=
 
+
   switch(filterSize)
   {
     case 2:
@@ -110,12 +111,17 @@ void medianFilter::run2DFilter(int size)
     case 8:
       kernel8ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
+    case 9:
+      kernel9ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
+    case 11:
+      kernel11ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
+    case 13:
+      kernel13ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
     case 15:
-//      kernel15<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      kernel15M<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      kernel15MS<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       kernel15ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//        medfilt<float, pad, 15, 15><<<blocks, threads)>>>(out, in, blk_x, blk_y)
       break;
     default:
       break;

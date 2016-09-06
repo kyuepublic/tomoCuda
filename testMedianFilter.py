@@ -82,12 +82,10 @@ def testMedianFilter2D():
     # prjsize is z, imsize is x, y.
 
     # print combined
-    size = 7 # window size for the filter
-    imsizex =2560 # image size for the input
+    size = 3 # window size for the filter
+    imsizex =256 # image size for the input
     imsizey = 204
-    prjsize= 721
-    diff = 2000
-
+    prjsize= 1
 
 
     # the left and right offset of the image to do the reflect mode
@@ -356,4 +354,4 @@ testMedianFilter2D()
 
 # testMedianFilterXZ()
 
-testRemoveOutliner1()
+# testRemoveOutliner1()
