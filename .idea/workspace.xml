@@ -20,14 +20,14 @@
     <favorites_list name="tomoCuda" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4316997">
+    <splitter split-orientation="horizontal" split-proportion="0.5891554">
       <split-first>
         <leaf>
-          <file leaf-file-name="rec_ASTRA_one.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="rec_ASTRA_one.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/rec_ASTRA_one.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="229" column="103" selection-start-line="229" selection-start-column="103" selection-end-line="229" selection-end-column="103" />
+                <state vertical-scroll-proportion="0.17002518">
+                  <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -43,10 +43,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="medianFilter.cu" pinned="false" current-in-tab="true">
+          <file leaf-file-name="medianFilter.cu" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/medianFilter.cu">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.13779527">
+                <state vertical-scroll-proportion="-3.28125">
                   <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
                   <folding />
                 </state>
@@ -137,10 +137,10 @@
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/wrapper.pyx" />
         <option value="$PROJECT_DIR$/src/medianFilter.hh" />
-        <option value="$PROJECT_DIR$/rec_ASTRA_one.py" />
         <option value="$PROJECT_DIR$/src/medianKernel.cu" />
         <option value="$PROJECT_DIR$/src/medianFilter.cu" />
         <option value="$PROJECT_DIR$/testMedianFilter.py" />
+        <option value="$PROJECT_DIR$/rec_ASTRA_one.py" />
       </list>
     </option>
   </component>
@@ -190,7 +190,7 @@
       </console-settings>
     </option>
   </component>
-  <component name="RunManager" selected="Python.testMedianFilter">
+  <component name="RunManager" selected="Python.rec_ASTRA_one">
     <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -389,8 +389,8 @@
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.testMedianFilter" />
-        <item index="1" class="java.lang.String" itemvalue="Python.rec_ASTRA_one" />
+        <item index="0" class="java.lang.String" itemvalue="Python.rec_ASTRA_one" />
+        <item index="1" class="java.lang.String" itemvalue="Python.testMedianFilter" />
         <item index="2" class="java.lang.String" itemvalue="Python.test" />
         <item index="3" class="java.lang.String" itemvalue="Python.recon_demo" />
       </list>
@@ -411,7 +411,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1920" height="1138" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.089676745" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -879,14 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rec_ASTRA_one.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="229" column="103" selection-start-line="229" selection-start-column="103" selection-end-line="229" selection-end-column="103" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -925,7 +917,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/medianFilter.cu">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13779527">
+        <state vertical-scroll-proportion="-3.28125">
           <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding />
         </state>
@@ -938,6 +930,14 @@
           <folding>
             <element signature="e#21#34#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rec_ASTRA_one.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17002518">
+          <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -95,81 +95,81 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         print("end normalize", stop-start)
 
 
-        # print '\n start remove stripe'
-        # # remove ring artefacts
-        # start = timeit.default_timer()
-        # print prj.shape
-        #
-        # prj = tomopy.remove_stripe_ti(prj, 2)
-        # stop = timeit.default_timer()
-        # diff += stop - start
-        # print("end remove stripe", stop-start)
+        print '\n start remove stripe'
+        # remove ring artefacts
+        start = timeit.default_timer()
+        print prj.shape
+
+        prj = tomopy.remove_stripe_ti(prj, 2)
+        stop = timeit.default_timer()
+        diff += stop - start
+        print("end remove stripe", stop-start)
 
 
-        # print '\n start median_filter'
-        # print prj.shape
-        # print medfilt_size
-        #
-        #
-        #
-        # start = timeit.default_timer()
-        # resultcombine=tomopy.median_filter_GPU(prj, medfilt_size)
-        # stop = timeit.default_timer()
-        # mdiff2= stop - start
-        # print("end gpu median filter", stop-start)
-        #
-        #
-        #
-        #
-        # start = timeit.default_timer()
-        # # Median filter:
-        # if medfilt_size:
-        #     prj = tomopy.median_filter(prj,size=medfilt_size)
-        # stop = timeit.default_timer()
-        # mdiff1=stop-start
-        # alldiff=mdiff1
-        # diff += mdiff1
-        # print("end median filter", stop-start)
-        #
-        # print("the times gpu over cpu is", mdiff1/mdiff2)
-        # print not np.any(prj-resultcombine)
-        #
-        #
-        #
-        # print '\n start outlier remove'
-        # odiff = 20
-        # start = timeit.default_timer()
-        # resultcombine = tomopy.remove_outlier_GPU(prj, odiff, medfilt_size)
-        # stop = timeit.default_timer()
-        # rdiff2= stop - start
-        # print("end gpu outlier remove", stop-start)
-        #
-        #
-        # start = timeit.default_timer()
-        # # Median filter:
-        # if medfilt_size:
-        #     prj = tomopy.misc.corr.remove_outlier(prj, odiff, medfilt_size)
-        #     # prj = tomopy.median_filter(prj,size=medfilt_size)
-        #
-        # stop = timeit.default_timer()
-        # rdiff1=stop-start
-        # alldiff+=rdiff1
-        # diff+=rdiff1
-        # print("end outlier removal", stop-start)
-        #
-        # print("the times gpu over cpu is", rdiff1/rdiff2)
-        # print not np.any(prj-resultcombine)
+        print '\n start median_filter'
+        print prj.shape
+        print medfilt_size
 
 
 
-        # start = timeit.default_timer()
-        # print '\n start downsample'
-        # if level>0:
-        #     prj = tomopy.downsample(prj, level=level)
-        #     prj = tomopy.downsample(prj, level=level, axis=1)
-        # stop = timeit.default_timer()
-        # diff += stop - start
-        # print("end downsample", stop-start)
+        start = timeit.default_timer()
+        resultcombine=tomopy.median_filter_GPU(prj, medfilt_size)
+        stop = timeit.default_timer()
+        mdiff2= stop - start
+        print("end gpu median filter", stop-start)
+
+
+
+
+        start = timeit.default_timer()
+        # Median filter:
+        if medfilt_size:
+            prj = tomopy.median_filter(prj,size=medfilt_size)
+        stop = timeit.default_timer()
+        mdiff1=stop-start
+        alldiff=mdiff1
+        diff += mdiff1
+        print("end median filter", stop-start)
+
+        print("the times gpu over cpu is", mdiff1/mdiff2)
+        print not np.any(prj-resultcombine)
+
+
+
+        print '\n start outlier remove'
+        odiff = 20
+        start = timeit.default_timer()
+        resultcombine = tomopy.remove_outlier_GPU(prj, odiff, medfilt_size)
+        stop = timeit.default_timer()
+        rdiff2= stop - start
+        print("end gpu outlier remove", stop-start)
+
+
+        start = timeit.default_timer()
+        # Median filter:
+        if medfilt_size:
+            prj = tomopy.misc.corr.remove_outlier(prj, odiff, medfilt_size)
+            # prj = tomopy.median_filter(prj,size=medfilt_size)
+
+        stop = timeit.default_timer()
+        rdiff1=stop-start
+        alldiff+=rdiff1
+        diff+=rdiff1
+        print("end outlier removal", stop-start)
+
+        print("the times gpu over cpu is", rdiff1/rdiff2)
+        print not np.any(prj-resultcombine)
+
+
+
+        start = timeit.default_timer()
+        print '\n start downsample'
+        if level>0:
+            prj = tomopy.downsample(prj, level=level)
+            prj = tomopy.downsample(prj, level=level, axis=1)
+        stop = timeit.default_timer()
+        diff += stop - start
+        print("end downsample", stop-start)
 
         # reconstruct 
         print '\n start reconstruction'
