@@ -116,11 +116,11 @@ class custom_build_ext(build_ext):
         customize_compiler_for_nvcc(self.compiler)
         build_ext.build_extensions(self)
 
-setup(name='tomoCuda',
+setup(name='tomocuda',
       # random metadata. there's more you can supploy
       author='Ke Yue',
       version='0.0.1',
-      description='Cuda accelarte version of tomoPy',
+      description='Cuda accelerate version of tomoPy',
       author_email='keeyue@gmail.com',
       ext_modules = [ext],
 

@@ -1,9 +1,9 @@
 package:
-  name: tomoCuda
+  name: tomocuda
   version: '0.0.1'
 
 source:
-  git_url: https://github.com/kyuepublic/tomoCuda.git
+  git_url: https://github.com/kyuepublic/tomocuda.git
   
 build:
   number: 0
@@ -24,10 +24,10 @@ requirements:
 test:
   # Python imports
   imports:
-    - tomoCuda
+    - tomocuda
 
 about:
-  home: https://github.com/kyuepublic/tomoCuda
+  home: https://github.com/kyuepublic/tomocuda
   license: BSD-3
   summary: 'Cuda function for median_filter and outlier_removal.'
 

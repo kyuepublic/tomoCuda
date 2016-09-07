@@ -3,7 +3,7 @@ import tomopy
 import time
 import numpy as np
 import timeit
-import tomoCuda
+import tomocuda
 
 import tomopy.util.dtype as dtype
 
