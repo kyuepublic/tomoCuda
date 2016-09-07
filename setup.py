@@ -57,7 +57,7 @@ except AttributeError:
     numpy_include = numpy.get_numpy_include()
 
 
-ext = Extension('tomoCuda',
+ext = Extension('tomocuda',
                 sources=['src/medianFilter.cu', 'wrapper.pyx'],
                 library_dirs=[CUDA['lib64']],
                 libraries=['cudart'],
