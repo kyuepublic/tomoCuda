@@ -15,7 +15,7 @@ import numpy as np
 import dxchange
 
 import timeit
-import tomoCuda
+import tomocuda
 
 from tomopy.recon.rotation import write_center
 from tomopy.recon.algorithm import recon
@@ -146,7 +146,7 @@ for ii in xrange(num_chunk):
 
     start = timeit.default_timer()
 
-    filter = tomoCuda.mFilter(data_size[2], data_size[1], data_size[0], filtersize)
+    filter = tomocuda.mFilter(data_size[2], data_size[1], data_size[0], filtersize)
     im_noisecu = np.lib.pad(data,((0,0), (loffset, roffset),(loffset, roffset)), 'symmetric')
     # print im_noisecu
 

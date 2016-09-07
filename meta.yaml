@@ -13,13 +13,14 @@ requirements:
     - python
     - setuptools
     - cython
+    - numpy
 
   run:
     - python
+    - cython
     - numpy
     - scipy
     - scikit-image
-    - dxchange
     
 test:
   # Python imports

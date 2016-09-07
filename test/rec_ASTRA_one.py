@@ -35,7 +35,7 @@ def median_filter_GPU(arr, size=3):
         imsizex =arr.shape[2] # image size for the input
         imsizey = arr.shape[1]
 
-        filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
+        filter = tomocuda.mFilter(imsizex, imsizey, prjsize, size)
         out = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
 
         for step in range (prjsize):
@@ -92,7 +92,7 @@ def remove_outlier_GPU(arr, dif, size=3):
         imsizex =arr.shape[2] # image size for the input
         imsizey = arr.shape[1]
 
-        filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
+        filter = tomocuda.mFilter(imsizex, imsizey, prjsize, size)
         out = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
 
         for step in range (prjsize):

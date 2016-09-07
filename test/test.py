@@ -1,4 +1,4 @@
-import tomoCuda
+import tomocuda
 import numpy as np
 import scipy
 from scipy import ndimage
@@ -20,7 +20,7 @@ def test1():
     roffset = (size-1)/2
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsize, imsize, size)
+    filter = tomocuda.mFilter(imsize, imsize, size)
 
 
 
@@ -103,7 +103,7 @@ def test2():
     print("end scipy filter", diff1 )
 
 
-    filter = tomoCuda.mFilter(imsize, imsize, size)
+    filter = tomocuda.mFilter(imsize, imsize, size)
 
     im_noisecu = im_noise.astype(np.float32)
 
@@ -176,7 +176,7 @@ def test3():
     results1 = np.zeros(shape=(prjsize,imsize,imsize), dtype=np.float32)
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsize, imsize, prjsize, size)
+    filter = tomocuda.mFilter(imsize, imsize, prjsize, size)
 
     diff1 = 0
 
@@ -253,7 +253,7 @@ def test4():
     roffset = (size-1)/2
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsize, imsize, prjsize, size)
+    filter = tomocuda.mFilter(imsize, imsize, prjsize, size)
 
 
 
@@ -321,7 +321,7 @@ def test5():
     results1 = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
+    filter = tomocuda.mFilter(imsizex, imsizey, prjsize, size)
 
 
 
@@ -389,7 +389,7 @@ def testRemoveoutliner1():
     results1 = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
 
     # create a gpu median filter object
-    filter = tomoCuda.mFilter(imsizex, imsizey, prjsize, size)
+    filter = tomocuda.mFilter(imsizex, imsizey, prjsize, size)
 
 
 
