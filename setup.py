@@ -3,7 +3,6 @@ from os.path import join as pjoin
 from setuptools import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
-# import subprocess
 import numpy
 
 def find_in_path(name, path):
@@ -109,8 +108,6 @@ def customize_compiler_for_nvcc(self):
     # inject our redefined _compile method into the class
     self._compile = _compile
 
-
-# run the customize_compiler
 class custom_build_ext(build_ext):
     def build_extensions(self):
         customize_compiler_for_nvcc(self.compiler)

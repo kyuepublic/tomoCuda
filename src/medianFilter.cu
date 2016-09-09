@@ -67,7 +67,6 @@ medianFilter::~medianFilter()
 void medianFilter::run2DFilter(int size)
 {
 
-
 //  cudaError_t err0 = cudaMalloc((void**) &v_device, size*size*sizeof(float));
 //  cudaMemset(v_device, 0, size*size*sizeof(float));
 //  double iStart = cpuSecond();
@@ -87,14 +86,10 @@ void medianFilter::run2DFilter(int size)
   switch(filterSize)
   {
     case 2:
-//      kernel2<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       kernel2ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      kernel2MS<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 3:
-//      kernel3<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       kernel3ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
-//      kernel3MES<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 4:
       kernel4ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
@@ -114,11 +109,20 @@ void medianFilter::run2DFilter(int size)
     case 9:
       kernel9ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
+    case 10:
+      kernel10ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
     case 11:
       kernel11ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
+    case 12:
+      kernel12ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
     case 13:
       kernel13ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
+      break;
+    case 14:
+      kernel14ME<<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
       break;
     case 15:
       kernel15ME <<<blocks,threads>>>(nx, ny, array_device_out, array_device_in);
@@ -154,7 +158,6 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
   dim3 threads(block_size_x,block_size_y);
 
 
-
   switch(filterSize)
   {
     case 2:
@@ -177,6 +180,24 @@ void medianFilter::run2DRemoveOutliner(int size, int diff)
       break;
     case 8:
       reomveOutliner2D8ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 9:
+      reomveOutliner2D9ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 10:
+      reomveOutliner2D10ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 11:
+      reomveOutliner2D11ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 12:
+      reomveOutliner2D12ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 13:
+      reomveOutliner2D13ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
+      break;
+    case 14:
+      reomveOutliner2D14ME<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);
       break;
     case 15:
 //      reomveOutliner2D15<<<blocks,threads>>>(nx, ny, diff, array_device_out, array_device_in);

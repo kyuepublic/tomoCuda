@@ -82,7 +82,7 @@ def testMedianFilter2D():
     # prjsize is z, imsize is x, y.
 
     # print combined
-    size = 3 # window size for the filter
+    size = 14 # window size for the filter
     imsizex =256 # image size for the input
     imsizey = 204
     prjsize= 1
@@ -285,10 +285,10 @@ def testRemoveOutliner1():
     # prjsize is z, imsize is x, y.
 
     # print combined
-    size = 7 # window size for the filter
-    imsizex =2560 # image size for the input
+    size = 15 # window size for the filter
+    imsizex =256 # image size for the input
     imsizey = 204
-    prjsize=721
+    prjsize=1
     diff = 20
 
 
@@ -348,10 +348,10 @@ def testRemoveOutliner1():
 
 # testMedianFilter1()
 
-testMedianFilter2D()
+# testMedianFilter2D()
 
 # testMedianFilter3()
 
 # testMedianFilterXZ()
 
-# testRemoveOutliner1()
+testRemoveOutliner1()

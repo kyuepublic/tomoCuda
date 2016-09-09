@@ -14,11 +14,11 @@
 #define INS(X,Y) d_in[(X)+(Y)*(6+nx)]
 #define INSE(X,Y) d_in[(X)+(Y)*(7+nx)] // 8
 #define INEI(X,Y) d_in[(X)+(Y)*(8+nx)] // 9
-
+#define INTE(X,Y) d_in[(X)+(Y)*(9+nx)] // 10
 #define INEL(X,Y) d_in[(X)+(Y)*(10+nx)] // 11
-
+#define INTW(X,Y) d_in[(X)+(Y)*(11+nx)] // 12
 #define INTHI(X,Y) d_in[(X)+(Y)*(12+nx)] // 13
-
+#define INFO(X,Y) d_in[(X)+(Y)*(13+nx)] // 14
 
 #define INZ(X,Y,Z)  d_in[(X)+(Y)*(14+nx)+(Z)*(14+nx)*ny]
 
@@ -127,8 +127,6 @@ __global__ void kernel3ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
-//        int toffset = loffset+roffset;
 
         x = x + loffset;
         y = y + loffset;
@@ -215,7 +213,6 @@ __global__ void kernel4ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -305,7 +302,7 @@ __global__ void kernel5ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -394,7 +391,7 @@ __global__ void kernel6ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -486,7 +483,7 @@ __global__ void kernel7ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -576,7 +573,7 @@ __global__ void kernel8ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -668,7 +665,7 @@ __global__ void kernel9ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -747,6 +744,101 @@ __global__ void kernel9ME(int nx, int ny, float *d_out, float *d_in)
 
 }
 
+__global__ void kernel10ME(int nx, int ny, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 10;
+//        float v[225] = {0};
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[60]={INTE(x-5,y-5),INTE(x-5,y-4),INTE(x-5,y-3),INTE(x-5,y-2), INTE(x-5, y-1), INTE(x-5, y), INTE(x-5,y+1), INTE(x-5,y+2),INTE(x-5,y+3),INTE(x-5,y+4),
+                    INTE(x-4,y-5),INTE(x-4,y-4),INTE(x-4,y-3),INTE(x-4,y-2), INTE(x-4, y-1), INTE(x-4, y), INTE(x-4,y+1), INTE(x-4,y+2),INTE(x-4,y+3),INTE(x-4,y+4),
+                    INTE(x-3,y-5),INTE(x-3,y-4),INTE(x-3,y-3),INTE(x-3,y-2), INTE(x-3, y-1), INTE(x-3, y), INTE(x-3,y+1), INTE(x-3,y+2),INTE(x-3,y+3),INTE(x-3,y+4),
+                    INTE(x-2,y-5),INTE(x-2,y-4),INTE(x-2,y-3),INTE(x-2,y-2), INTE(x-2, y-1), INTE(x-2, y), INTE(x-2,y+1), INTE(x-2,y+2),INTE(x-2,y+3),INTE(x-2,y+4),
+                    INTE(x-1,y-5),INTE(x-1,y-4),INTE(x-1,y-3),INTE(x-1,y-2), INTE(x-1, y-1), INTE(x-1, y), INTE(x-1,y+1),INTE(x-1,y+2),INTE(x-1,y+3),INTE(x-1,y+4),
+                    INTE(x, y-5),INTE(x, y-4),INTE(x, y-3), INTE(x, y-2), INTE(x, y-1), INTE(x,y), INTE(x,y+1), INTE(x,y+2), INTE(x,y+3),INTE(x,y+4)};
+
+
+        const int ARR_SIZE = winSize*(winSize/2+1);
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2-1; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2-1; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INTE(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        int fvecsize = 2*winSize;
+
+        for(int k = 1; k <fvecsize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < fvecsize/2; i++) {
+                swapd(v[i], v[fvecsize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= fvecsize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = fvecsize-k-2; i >= fvecsize/2; i--) {
+                swapd(v[i], v[fvecsize-1-k]);
+            }
+        }
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[winSize];
+    }
+
+}
+
+
 __global__ void kernel11ME(int nx, int ny, float *d_out, float *d_in)
 {
 
@@ -759,7 +851,7 @@ __global__ void kernel11ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -839,6 +931,100 @@ __global__ void kernel11ME(int nx, int ny, float *d_out, float *d_in)
 
 }
 
+__global__ void kernel12ME(int nx, int ny, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 12;
+//        float v[225] = {0};
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[84]={INTW(x-6,y-6),INTW(x-6,y-5),INTW(x-6,y-4),INTW(x-6,y-3),INTW(x-6,y-2), INTW(x-6, y-1), INTW(x-6, y), INTW(x-6,y+1), INTW(x-6,y+2),INTW(x-6,y+3),INTW(x-6,y+4),INTW(x-6,y+5),
+                    INTW(x-5,y-6),INTW(x-5,y-5),INTW(x-5,y-4),INTW(x-5,y-3),INTW(x-5,y-2), INTW(x-5, y-1), INTW(x-5, y), INTW(x-5,y+1), INTW(x-5,y+2),INTW(x-5,y+3),INTW(x-5,y+4),INTW(x-5,y+5),
+                    INTW(x-4,y-6),INTW(x-4,y-5),INTW(x-4,y-4),INTW(x-4,y-3),INTW(x-4,y-2), INTW(x-4, y-1), INTW(x-4, y), INTW(x-4,y+1), INTW(x-4,y+2),INTW(x-4,y+3),INTW(x-4,y+4),INTW(x-4,y+5),
+                    INTW(x-3,y-6),INTW(x-3,y-5),INTW(x-3,y-4),INTW(x-3,y-3),INTW(x-3,y-2), INTW(x-3, y-1), INTW(x-3, y), INTW(x-3,y+1), INTW(x-3,y+2),INTW(x-3,y+3),INTW(x-3,y+4),INTW(x-3,y+5),
+                    INTW(x-2,y-6),INTW(x-2,y-5),INTW(x-2,y-4),INTW(x-2,y-3),INTW(x-2,y-2), INTW(x-2, y-1), INTW(x-2, y), INTW(x-2,y+1), INTW(x-2,y+2),INTW(x-2,y+3),INTW(x-2,y+4),INTW(x-2,y+5),
+                    INTW(x-1,y-6),INTW(x-1,y-5),INTW(x-1,y-4),INTW(x-1,y-3),INTW(x-1,y-2), INTW(x-1, y-1), INTW(x-1, y), INTW(x-1,y+1),INTW(x-1,y+2),INTW(x-1,y+3),INTW(x-1,y+4),INTW(x-1,y+5),
+                    INTW(x, y-6),INTW(x, y-5),INTW(x, y-4),INTW(x, y-3), INTW(x, y-2), INTW(x, y-1), INTW(x,y), INTW(x,y+1), INTW(x,y+2), INTW(x,y+3),INTW(x,y+4),INTW(x,y+5)};
+
+
+        const int ARR_SIZE = winSize*(winSize/2+1);
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2-1; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2-1; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INTW(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        int fvecsize = 2*winSize;
+
+        for(int k = 1; k <fvecsize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < fvecsize/2; i++) {
+                swapd(v[i], v[fvecsize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= fvecsize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = fvecsize-k-2; i >= fvecsize/2; i--) {
+                swapd(v[i], v[fvecsize-1-k]);
+            }
+        }
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[winSize];
+    }
+
+}
 
 __global__ void kernel13ME(int nx, int ny, float *d_out, float *d_in)
 {
@@ -852,7 +1038,7 @@ __global__ void kernel13ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -934,6 +1120,101 @@ __global__ void kernel13ME(int nx, int ny, float *d_out, float *d_in)
 }
 
 // Use the new exchange way
+__global__ void kernel14ME(int nx, int ny, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 14;
+//        float v[225] = {0};
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[112]={INFO(x-7,y-7),INFO(x-7,y-6),INFO(x-7,y-5),INFO(x-7,y-4),INFO(x-7,y-3),INFO(x-7,y-2), INFO(x-7, y-1), INFO(x-7, y), INFO(x-7,y+1), INFO(x-7,y+2),INFO(x-7,y+3),INFO(x-7,y+4),INFO(x-7,y+5),INFO(x-7,y+6),
+                    INFO(x-6,y-7),INFO(x-6,y-6),INFO(x-6,y-5),INFO(x-6,y-4),INFO(x-6,y-3),INFO(x-6,y-2), INFO(x-6, y-1), INFO(x-6, y), INFO(x-6,y+1), INFO(x-6,y+2),INFO(x-6,y+3),INFO(x-6,y+4),INFO(x-6,y+5),INFO(x-6,y+6),
+                    INFO(x-5,y-7),INFO(x-5,y-6),INFO(x-5,y-5),INFO(x-5,y-4),INFO(x-5,y-3),INFO(x-5,y-2), INFO(x-5, y-1), INFO(x-5, y), INFO(x-5,y+1), INFO(x-5,y+2),INFO(x-5,y+3),INFO(x-5,y+4),INFO(x-5,y+5),INFO(x-5,y+6),
+                    INFO(x-4,y-7),INFO(x-4,y-6),INFO(x-4,y-5),INFO(x-4,y-4),INFO(x-4,y-3),INFO(x-4,y-2), INFO(x-4, y-1), INFO(x-4, y), INFO(x-4,y+1), INFO(x-4,y+2),INFO(x-4,y+3),INFO(x-4,y+4),INFO(x-4,y+5),INFO(x-4,y+6),
+                    INFO(x-3,y-7),INFO(x-3,y-6),INFO(x-3,y-5),INFO(x-3,y-4),INFO(x-3,y-3),INFO(x-3,y-2), INFO(x-3, y-1), INFO(x-3, y), INFO(x-3,y+1), INFO(x-3,y+2),INFO(x-3,y+3),INFO(x-3,y+4),INFO(x-3,y+5),INFO(x-3,y+6),
+                    INFO(x-2,y-7),INFO(x-2,y-6),INFO(x-2,y-5),INFO(x-2,y-4),INFO(x-2,y-3),INFO(x-2,y-2), INFO(x-2, y-1), INFO(x-2, y), INFO(x-2,y+1), INFO(x-2,y+2),INFO(x-2,y+3),INFO(x-2,y+4),INFO(x-2,y+5),INFO(x-2,y+6),
+                    INFO(x-1,y-7),INFO(x-1,y-6),INFO(x-1,y-5),INFO(x-1,y-4),INFO(x-1,y-3),INFO(x-1,y-2), INFO(x-1, y-1), INFO(x-1, y), INFO(x-1,y+1),INFO(x-1,y+2),INFO(x-1,y+3),INFO(x-1,y+4),INFO(x-1,y+5),INFO(x-1,y+6),
+                    INFO(x, y-7),INFO(x, y-6),INFO(x, y-5),INFO(x, y-4),INFO(x, y-3), INFO(x, y-2), INFO(x, y-1), INFO(x,y), INFO(x,y+1), INFO(x,y+2), INFO(x,y+3),INFO(x,y+4),INFO(x,y+5),INFO(x,y+6)};
+
+
+        const int ARR_SIZE = winSize*(winSize/2+1);
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2-1; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2-1; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INFO(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        int fvecsize = 2*winSize;
+
+        for(int k = 1; k <fvecsize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < fvecsize/2; i++) {
+                swapd(v[i], v[fvecsize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= fvecsize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = fvecsize-k-2; i >= fvecsize/2; i--) {
+                swapd(v[i], v[fvecsize-1-k]);
+            }
+        }
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[winSize];
+    }
+
+}
 
 __global__ void kernel15ME(int nx, int ny, float *d_out, float *d_in)
 {
@@ -948,7 +1229,7 @@ __global__ void kernel15ME(int nx, int ny, float *d_out, float *d_in)
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -1058,7 +1339,7 @@ __global__ void reomveOutliner2D2ME(int nx, int ny, int diff, float *d_out, floa
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -1156,7 +1437,7 @@ __global__ void reomveOutliner2D3ME(int nx, int ny, int diff, float *d_out, floa
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -1237,7 +1518,7 @@ __global__ void reomveOutliner2D4ME(int nx, int ny, int diff, float *d_out, floa
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -1337,7 +1618,7 @@ __global__ void reomveOutliner2D5ME(int nx, int ny, int diff, float *d_out, floa
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -1436,7 +1717,7 @@ __global__ void reomveOutliner2D6ME(int nx, int ny, int diff, float *d_out, floa
 
 //        int vecSize = winSize*winSize;
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
+
 //        int toffset = loffset+roffset;
 
         x = x + loffset;
@@ -1535,10 +1816,8 @@ __global__ void reomveOutliner2D7ME(int nx, int ny, int diff, float *d_out, floa
     {
         int winSize = 7;
 
-        int vecSize = winSize*winSize;
+
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
-        int toffset = loffset+roffset;
 
         x = x + loffset;
         y = y + loffset;
@@ -1635,10 +1914,10 @@ __global__ void reomveOutliner2D8ME(int nx, int ny, int diff, float *d_out, floa
         int winSize = 8;
 //        float v[225] = {0};
 
-        int vecSize = winSize*winSize;
+
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
-        int toffset = loffset+roffset;
+
+
 
         x = x + loffset;
         y = y + loffset;
@@ -1727,6 +2006,619 @@ __global__ void reomveOutliner2D8ME(int nx, int ny, int diff, float *d_out, floa
 
 }
 
+__global__ void reomveOutliner2D9ME(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 9;
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[45]={ INEI(x-4, y-4),INEI(x-4, y-3), INEI(x-4, y-2), INEI(x-4, y-1), INEI(x-4, y), INEI(x-4, y+1), INEI(x-4, y+2), INEI(x-4, y+3),INEI(x-4, y+4),
+                      INEI(x-3, y-4),INEI(x-3, y-3), INEI(x-3, y-2), INEI(x-3, y-1), INEI(x-3, y), INEI(x-3, y+1), INEI(x-3, y+2), INEI(x-3, y+3),INEI(x-3, y+4),
+                      INEI(x-2, y-4),INEI(x-2, y-3), INEI(x-2, y-2), INEI(x-2, y-1), INEI(x-2, y), INEI(x-2, y+1), INEI(x-2, y+2), INEI(x-2, y+3),INEI(x-2, y+4),
+                      INEI(x-1, y-4),INEI(x-1, y-3), INEI(x-1, y-2), INEI(x-1, y-1), INEI(x-1, y), INEI(x-1, y+1), INEI(x-1, y+2), INEI(x-1, y+3),INEI(x-1, y+4),
+                      INEI(x, y-4),INEI(x, y-3), INEI(x, y-2), INEI(x, y-1), INEI(x, y), INEI(x, y+1), INEI(x, y+2), INEI(x, y+3),INEI(x, y+4)};
+
+
+
+        const int ARR_SIZE = winSize*(winSize-winSize/2); // float array size
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INEI(x+k, y+j); // change window size change here
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        for(int k = 1; k <winSize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < winSize/2; i++) {
+                swapd(v[i], v[winSize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= winSize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = winSize-k-2; i >= winSize/2; i--) {
+                swapd(v[i], v[winSize-1-k]);
+            }
+        }
+
+        float currentPixel = INEI(x, y);
+
+        int mask = 0;
+        if((currentPixel-v[3]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[3]*mask+currentPixel*(1-mask);
+
+    }
+
+}
+
+__global__ void reomveOutliner2D10ME(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 10;
+//        float v[225] = {0};
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[60]={INTE(x-5,y-5),INTE(x-5,y-4),INTE(x-5,y-3),INTE(x-5,y-2), INTE(x-5, y-1), INTE(x-5, y), INTE(x-5,y+1), INTE(x-5,y+2),INTE(x-5,y+3),INTE(x-5,y+4),
+                    INTE(x-4,y-5),INTE(x-4,y-4),INTE(x-4,y-3),INTE(x-4,y-2), INTE(x-4, y-1), INTE(x-4, y), INTE(x-4,y+1), INTE(x-4,y+2),INTE(x-4,y+3),INTE(x-4,y+4),
+                    INTE(x-3,y-5),INTE(x-3,y-4),INTE(x-3,y-3),INTE(x-3,y-2), INTE(x-3, y-1), INTE(x-3, y), INTE(x-3,y+1), INTE(x-3,y+2),INTE(x-3,y+3),INTE(x-3,y+4),
+                    INTE(x-2,y-5),INTE(x-2,y-4),INTE(x-2,y-3),INTE(x-2,y-2), INTE(x-2, y-1), INTE(x-2, y), INTE(x-2,y+1), INTE(x-2,y+2),INTE(x-2,y+3),INTE(x-2,y+4),
+                    INTE(x-1,y-5),INTE(x-1,y-4),INTE(x-1,y-3),INTE(x-1,y-2), INTE(x-1, y-1), INTE(x-1, y), INTE(x-1,y+1),INTE(x-1,y+2),INTE(x-1,y+3),INTE(x-1,y+4),
+                    INTE(x, y-5),INTE(x, y-4),INTE(x, y-3), INTE(x, y-2), INTE(x, y-1), INTE(x,y), INTE(x,y+1), INTE(x,y+2), INTE(x,y+3),INTE(x,y+4)};
+
+
+        const int ARR_SIZE = winSize*(winSize/2+1);
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2-1; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2-1; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INTE(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        int fvecsize = 2*winSize;
+
+        for(int k = 1; k <fvecsize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < fvecsize/2; i++) {
+                swapd(v[i], v[fvecsize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= fvecsize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = fvecsize-k-2; i >= fvecsize/2; i--) {
+                swapd(v[i], v[fvecsize-1-k]);
+            }
+        }
+
+        float currentPixel = INSE(x, y);
+
+        int mask = 0;
+        if((currentPixel-v[winSize]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[winSize]*mask+currentPixel*(1-mask);
+
+    }
+
+}
+
+__global__ void reomveOutliner2D11ME(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 11;
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[66]={ INEL(x-5, y-5),INEL(x-5, y-4),INEL(x-5, y-3), INEL(x-5, y-2), INEL(x-5, y-1), INEL(x-5, y), INEL(x-5, y+1), INEL(x-5, y+2), INEL(x-5, y+3),INEL(x-5, y+4),INEL(x-5, y+5),
+                      INEL(x-4, y-5),INEL(x-4, y-4),INEL(x-4, y-3), INEL(x-4, y-2), INEL(x-4, y-1), INEL(x-4, y), INEL(x-4, y+1), INEL(x-4, y+2), INEL(x-4, y+3),INEL(x-4, y+4),INEL(x-4, y+5),
+                      INEL(x-3, y-5),INEL(x-3, y-4),INEL(x-3, y-3), INEL(x-3, y-2), INEL(x-3, y-1), INEL(x-3, y), INEL(x-3, y+1), INEL(x-3, y+2), INEL(x-3, y+3),INEL(x-3, y+4),INEL(x-3, y+5),
+                      INEL(x-2, y-5),INEL(x-2, y-4),INEL(x-2, y-3), INEL(x-2, y-2), INEL(x-2, y-1), INEL(x-2, y), INEL(x-2, y+1), INEL(x-2, y+2), INEL(x-2, y+3),INEL(x-2, y+4),INEL(x-2, y+5),
+                      INEL(x-1, y-5),INEL(x-1, y-4),INEL(x-1, y-3), INEL(x-1, y-2), INEL(x-1, y-1), INEL(x-1, y), INEL(x-1, y+1), INEL(x-1, y+2), INEL(x-1, y+3),INEL(x-1, y+4),INEL(x-1, y+5),
+                      INEL(x, y-5),INEL(x, y-4),INEL(x, y-3), INEL(x, y-2), INEL(x, y-1), INEL(x, y), INEL(x, y+1), INEL(x, y+2), INEL(x, y+3),INEL(x, y+4),INEL(x, y+5)};
+
+
+
+        const int ARR_SIZE = winSize*(winSize-winSize/2); // float array size
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INEL(x+k, y+j); // change window size change here
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        for(int k = 1; k <winSize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < winSize/2; i++) {
+                swapd(v[i], v[winSize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= winSize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = winSize-k-2; i >= winSize/2; i--) {
+                swapd(v[i], v[winSize-1-k]);
+            }
+        }
+
+        float currentPixel = INEL(x, y);
+
+        int mask = 0;
+        if((currentPixel-v[3]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[3]*mask+currentPixel*(1-mask);
+    }
+
+}
+
+__global__ void reomveOutliner2D12ME(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 12;
+//        float v[225] = {0};
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[84]={INTW(x-6,y-6),INTW(x-6,y-5),INTW(x-6,y-4),INTW(x-6,y-3),INTW(x-6,y-2), INTW(x-6, y-1), INTW(x-6, y), INTW(x-6,y+1), INTW(x-6,y+2),INTW(x-6,y+3),INTW(x-6,y+4),INTW(x-6,y+5),
+                    INTW(x-5,y-6),INTW(x-5,y-5),INTW(x-5,y-4),INTW(x-5,y-3),INTW(x-5,y-2), INTW(x-5, y-1), INTW(x-5, y), INTW(x-5,y+1), INTW(x-5,y+2),INTW(x-5,y+3),INTW(x-5,y+4),INTW(x-5,y+5),
+                    INTW(x-4,y-6),INTW(x-4,y-5),INTW(x-4,y-4),INTW(x-4,y-3),INTW(x-4,y-2), INTW(x-4, y-1), INTW(x-4, y), INTW(x-4,y+1), INTW(x-4,y+2),INTW(x-4,y+3),INTW(x-4,y+4),INTW(x-4,y+5),
+                    INTW(x-3,y-6),INTW(x-3,y-5),INTW(x-3,y-4),INTW(x-3,y-3),INTW(x-3,y-2), INTW(x-3, y-1), INTW(x-3, y), INTW(x-3,y+1), INTW(x-3,y+2),INTW(x-3,y+3),INTW(x-3,y+4),INTW(x-3,y+5),
+                    INTW(x-2,y-6),INTW(x-2,y-5),INTW(x-2,y-4),INTW(x-2,y-3),INTW(x-2,y-2), INTW(x-2, y-1), INTW(x-2, y), INTW(x-2,y+1), INTW(x-2,y+2),INTW(x-2,y+3),INTW(x-2,y+4),INTW(x-2,y+5),
+                    INTW(x-1,y-6),INTW(x-1,y-5),INTW(x-1,y-4),INTW(x-1,y-3),INTW(x-1,y-2), INTW(x-1, y-1), INTW(x-1, y), INTW(x-1,y+1),INTW(x-1,y+2),INTW(x-1,y+3),INTW(x-1,y+4),INTW(x-1,y+5),
+                    INTW(x, y-6),INTW(x, y-5),INTW(x, y-4),INTW(x, y-3), INTW(x, y-2), INTW(x, y-1), INTW(x,y), INTW(x,y+1), INTW(x,y+2), INTW(x,y+3),INTW(x,y+4),INTW(x,y+5)};
+
+
+        const int ARR_SIZE = winSize*(winSize/2+1);
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2-1; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2-1; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INTW(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        int fvecsize = 2*winSize;
+
+        for(int k = 1; k <fvecsize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < fvecsize/2; i++) {
+                swapd(v[i], v[fvecsize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= fvecsize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = fvecsize-k-2; i >= fvecsize/2; i--) {
+                swapd(v[i], v[fvecsize-1-k]);
+            }
+        }
+
+        float currentPixel = INTW(x, y);
+
+        int mask = 0;
+        if((currentPixel-v[winSize]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[winSize]*mask+currentPixel*(1-mask);
+    }
+
+}
+
+__global__ void reomveOutliner2D13ME(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 13;
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[91]={ INTHI(x-6, y-6),INTHI(x-6, y-5),INTHI(x-6, y-4),INTHI(x-6, y-3), INTHI(x-6, y-2), INTHI(x-6, y-1), INTHI(x-6, y), INTHI(x-6, y+1), INTHI(x-6, y+2), INTHI(x-6, y+3),INTHI(x-6, y+4),INTHI(x-6, y+5),INTHI(x-6, y+6),
+                      INTHI(x-5, y-6),INTHI(x-5, y-5),INTHI(x-5, y-4),INTHI(x-5, y-3), INTHI(x-5, y-2), INTHI(x-5, y-1), INTHI(x-5, y), INTHI(x-5, y+1), INTHI(x-5, y+2), INTHI(x-5, y+3),INTHI(x-5, y+4),INTHI(x-5, y+5),INTHI(x-5, y+6),
+                      INTHI(x-4, y-6),INTHI(x-4, y-5),INTHI(x-4, y-4),INTHI(x-4, y-3), INTHI(x-4, y-2), INTHI(x-4, y-1), INTHI(x-4, y), INTHI(x-4, y+1), INTHI(x-4, y+2), INTHI(x-4, y+3),INTHI(x-4, y+4),INTHI(x-4, y+5),INTHI(x-4, y+6),
+                      INTHI(x-3, y-6),INTHI(x-3, y-5),INTHI(x-3, y-4),INTHI(x-3, y-3), INTHI(x-3, y-2), INTHI(x-3, y-1), INTHI(x-3, y), INTHI(x-3, y+1), INTHI(x-3, y+2), INTHI(x-3, y+3),INTHI(x-3, y+4),INTHI(x-3, y+5),INTHI(x-3, y+6),
+                      INTHI(x-2, y-6),INTHI(x-2, y-5),INTHI(x-2, y-4),INTHI(x-2, y-3), INTHI(x-2, y-2), INTHI(x-2, y-1), INTHI(x-2, y), INTHI(x-2, y+1), INTHI(x-2, y+2), INTHI(x-2, y+3),INTHI(x-2, y+4),INTHI(x-2, y+5),INTHI(x-2, y+6),
+                      INTHI(x-1, y-6),INTHI(x-1, y-5),INTHI(x-1, y-4),INTHI(x-1, y-3), INTHI(x-1, y-2), INTHI(x-1, y-1), INTHI(x-1, y), INTHI(x-1, y+1), INTHI(x-1, y+2), INTHI(x-1, y+3),INTHI(x-1, y+4),INTHI(x-1, y+5),INTHI(x-1, y+6),
+                      INTHI(x, y-6),INTHI(x, y-5),INTHI(x, y-4),INTHI(x, y-3), INTHI(x, y-2), INTHI(x, y-1), INTHI(x, y), INTHI(x, y+1), INTHI(x, y+2), INTHI(x, y+3),INTHI(x, y+4),INTHI(x, y+5),INTHI(x, y+6)};
+
+
+
+        const int ARR_SIZE = winSize*(winSize-winSize/2); // float array size
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INTHI(x+k, y+j); // change window size change here
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        for(int k = 1; k <winSize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < winSize/2; i++) {
+                swapd(v[i], v[winSize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= winSize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = winSize-k-2; i >= winSize/2; i--) {
+                swapd(v[i], v[winSize-1-k]);
+            }
+        }
+
+        float currentPixel = INTHI(x, y);
+
+        int mask = 0;
+        if((currentPixel-v[3]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[3]*mask+currentPixel*(1-mask);
+    }
+
+}
+
+// Use the new exchange way
+__global__ void reomveOutliner2D14ME(int nx, int ny, int diff, float *d_out, float *d_in)
+{
+
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if ((x < nx) && (y < ny))
+    {
+        int winSize = 14;
+//        float v[225] = {0};
+
+//        int vecSize = winSize*winSize;
+        int loffset = winSize/2;
+
+//        int toffset = loffset+roffset;
+
+        x = x + loffset;
+        y = y + loffset;
+
+// use macro to fetch the value, like loop unrolling
+        float v[112]={INFO(x-7,y-7),INFO(x-7,y-6),INFO(x-7,y-5),INFO(x-7,y-4),INFO(x-7,y-3),INFO(x-7,y-2), INFO(x-7, y-1), INFO(x-7, y), INFO(x-7,y+1), INFO(x-7,y+2),INFO(x-7,y+3),INFO(x-7,y+4),INFO(x-7,y+5),INFO(x-7,y+6),
+                    INFO(x-6,y-7),INFO(x-6,y-6),INFO(x-6,y-5),INFO(x-6,y-4),INFO(x-6,y-3),INFO(x-6,y-2), INFO(x-6, y-1), INFO(x-6, y), INFO(x-6,y+1), INFO(x-6,y+2),INFO(x-6,y+3),INFO(x-6,y+4),INFO(x-6,y+5),INFO(x-6,y+6),
+                    INFO(x-5,y-7),INFO(x-5,y-6),INFO(x-5,y-5),INFO(x-5,y-4),INFO(x-5,y-3),INFO(x-5,y-2), INFO(x-5, y-1), INFO(x-5, y), INFO(x-5,y+1), INFO(x-5,y+2),INFO(x-5,y+3),INFO(x-5,y+4),INFO(x-5,y+5),INFO(x-5,y+6),
+                    INFO(x-4,y-7),INFO(x-4,y-6),INFO(x-4,y-5),INFO(x-4,y-4),INFO(x-4,y-3),INFO(x-4,y-2), INFO(x-4, y-1), INFO(x-4, y), INFO(x-4,y+1), INFO(x-4,y+2),INFO(x-4,y+3),INFO(x-4,y+4),INFO(x-4,y+5),INFO(x-4,y+6),
+                    INFO(x-3,y-7),INFO(x-3,y-6),INFO(x-3,y-5),INFO(x-3,y-4),INFO(x-3,y-3),INFO(x-3,y-2), INFO(x-3, y-1), INFO(x-3, y), INFO(x-3,y+1), INFO(x-3,y+2),INFO(x-3,y+3),INFO(x-3,y+4),INFO(x-3,y+5),INFO(x-3,y+6),
+                    INFO(x-2,y-7),INFO(x-2,y-6),INFO(x-2,y-5),INFO(x-2,y-4),INFO(x-2,y-3),INFO(x-2,y-2), INFO(x-2, y-1), INFO(x-2, y), INFO(x-2,y+1), INFO(x-2,y+2),INFO(x-2,y+3),INFO(x-2,y+4),INFO(x-2,y+5),INFO(x-2,y+6),
+                    INFO(x-1,y-7),INFO(x-1,y-6),INFO(x-1,y-5),INFO(x-1,y-4),INFO(x-1,y-3),INFO(x-1,y-2), INFO(x-1, y-1), INFO(x-1, y), INFO(x-1,y+1),INFO(x-1,y+2),INFO(x-1,y+3),INFO(x-1,y+4),INFO(x-1,y+5),INFO(x-1,y+6),
+                    INFO(x, y-7),INFO(x, y-6),INFO(x, y-5),INFO(x, y-4),INFO(x, y-3), INFO(x, y-2), INFO(x, y-1), INFO(x,y), INFO(x,y+1), INFO(x,y+2), INFO(x,y+3),INFO(x,y+4),INFO(x,y+5),INFO(x,y+6)};
+
+
+        const int ARR_SIZE = winSize*(winSize/2+1);
+
+#pragma unroll
+        for(int i = 0; i < ARR_SIZE/2; i++) {
+            swapd(v[i], v[ARR_SIZE-1-i]);
+        }
+
+#pragma unroll
+        for(int i = 1; i < (ARR_SIZE+1)/2; i++) {
+            swapd(v[0], v[i]);
+        }
+
+#pragma unroll
+        for(int i = ARR_SIZE-2; i >= ARR_SIZE/2; i--) {
+            swapd(v[i], v[ARR_SIZE-1]);
+        }
+
+        int last = ARR_SIZE-1;
+
+        for(int k = 1; k <= winSize/2-1; k++) {
+
+            for(int j = -winSize/2; j <= winSize/2-1; j++) {
+
+                // add new contestant to first position in array
+                v[0] = INFO(x+k, y+j);
+
+                last--;
+
+                // place max in last half, min in first half
+                for(int i = 0; i < (last+1)/2; i++) {
+                    swapd(v[i], v[last-i]);
+                }
+                // now perform swaps on each half such that
+                // max is in last pos, min is in first pos
+                for(int i = 1; i <= last/2; i++) {
+                    swapd(v[0], v[i]);
+                }
+                for(int i = last-1; i >= (last+1)/2; i--) {
+                    swapd(v[i], v[last]);
+                }
+            }
+        }
+
+        int fvecsize = 2*winSize;
+
+        for(int k = 1; k <fvecsize/2; k++) {
+            // move max/min into respective halves
+            for(int i = k; i < fvecsize/2; i++) {
+                swapd(v[i], v[fvecsize-1-i]);
+            }
+            // move min into first pos
+            for(int i = k+1; i <= fvecsize/2; i++) {
+                swapd(v[k], v[i]);
+            }
+            // move max into last pos
+            for(int i = fvecsize-k-2; i >= fvecsize/2; i--) {
+                swapd(v[i], v[fvecsize-1-k]);
+            }
+        }
+
+        float currentPixel = INFO(x, y);
+
+        int mask = 0;
+        if((currentPixel-v[winSize]) >= diff)
+            mask = 1;
+        else
+            mask = 0;
+
+        // pick the middle one
+        d_out[(y-loffset)*nx + x-loffset] = v[winSize]*mask+currentPixel*(1-mask);
+    }
+
+}
+
+
 __global__ void reomveOutliner2D15ME(int nx, int ny, int diff, float *d_out, float *d_in)
 {
 
@@ -1738,10 +2630,8 @@ __global__ void reomveOutliner2D15ME(int nx, int ny, int diff, float *d_out, flo
         int winSize = 15;
 //        float v[225] = {0};
 
-        int vecSize = winSize*winSize;
+
         int loffset = winSize/2;
-        int roffset = (winSize-1)/2;
-        int toffset = loffset+roffset;
 
         x = x + loffset;
         y = y + loffset;
