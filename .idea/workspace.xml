@@ -23,11 +23,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5491364">
       <split-first>
         <leaf>
-          <file leaf-file-name="rec_ASTRA_one.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="rec_ASTRA_one.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test/rec_ASTRA_one.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="37" column="57" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
+                <state vertical-scroll-proportion="0.9660633">
+                  <caret line="233" column="0" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -53,10 +53,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="medianFilter.cu" pinned="false" current-in-tab="true">
+          <file leaf-file-name="medianFilter.cu" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/medianFilter.cu">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.45774648">
+                <state vertical-scroll-proportion="-12.1875">
                   <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
                   <folding />
                 </state>
@@ -113,7 +113,6 @@
         <option value="$PROJECT_DIR$/src/medianFilter.hh" />
         <option value="$PROJECT_DIR$/testMedianFilter.py" />
         <option value="$PROJECT_DIR$/rec_ASTRA_one.py" />
-        <option value="$PROJECT_DIR$/test/rec_ASTRA_one.py" />
         <option value="$PROJECT_DIR$/test/recon_demo.py" />
         <option value="$PROJECT_DIR$/test/test.py" />
         <option value="$PROJECT_DIR$/test/testMedianFilter.py" />
@@ -122,6 +121,7 @@
         <option value="$PROJECT_DIR$/wrapper.pyx" />
         <option value="$PROJECT_DIR$/src/medianKernel.cu" />
         <option value="$PROJECT_DIR$/src/medianFilter.cu" />
+        <option value="$PROJECT_DIR$/test/rec_ASTRA_one.py" />
       </list>
     </option>
   </component>
@@ -653,26 +653,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/site-packages/tomopy-1.0.0-py2.7-linux-x86_64.egg/tomopy/prep/stripe.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="296" column="40" selection-start-line="296" selection-start-column="40" selection-end-line="296" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/medianFilter.cu">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="75" column="29" selection-start-line="75" selection-start-column="29" selection-end-line="75" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/site-packages/tomopy-1.0.0-py2.7-linux-x86_64.egg/tomopy/util/mproc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -808,13 +792,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/site-packages/tomopy-1.0.0-py2.7-linux-x86_64.egg/tomopy/recon/algorithm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.409308">
-          <caret line="246" column="0" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/multiprocessing/pool.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33244327">
@@ -826,29 +803,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6328438">
           <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/site-packages/tomopy-1.0.0-py2.7-linux-x86_64.egg/tomopy/util/mproc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/site-packages/tomopy-1.0.0-py2.7-linux-x86_64.egg/tomopy/prep/stripe.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33212996">
-          <caret line="252" column="0" selection-start-line="252" selection-start-column="0" selection-end-line="252" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../program/anaconda/lib/python2.7/site-packages/tomopy-1.0.0-py2.7-linux-x86_64.egg/tomopy/util/misc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7013782">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -923,14 +877,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/rec_ASTRA_one.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="57" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/medianKernel.cu">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.560976">
@@ -941,8 +887,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/medianFilter.cu">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45774648">
+        <state vertical-scroll-proportion="-12.1875">
           <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/rec_ASTRA_one.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9660633">
+          <caret line="233" column="0" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
           <folding />
         </state>
       </provider>

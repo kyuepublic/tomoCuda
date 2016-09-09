@@ -21,6 +21,7 @@ requirements:
     - numpy
     - scipy
     - scikit-image
+    - tomopy
     
 test:
   # Python imports

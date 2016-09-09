@@ -9,109 +9,6 @@ import tomopy.util.dtype as dtype
 
 proj_type='cuda'
 
-def median_filter_GPU(arr, size=3):
-    """
-    Apply median filter to 3D array along 0 axis with GPU support.
-    The winAllow 4 to 7 is for A6000, for Tian X support 3 to 8
-    Parameters
-    ----------
-    arr : ndarray
-        Input array.
-    size : int, optional
-        The size of the filter.
-
-    Returns
-    -------
-    ndarray
-        Median filtered 3D array.
-    """
-
-    winAllow = [4,5,6,7,15]
-
-    if size in winAllow:
-        prjsize = arr.shape[0]
-        loffset = int(size/2)
-        roffset = int((size-1)/2)
-        imsizex =arr.shape[2] # image size for the input
-        imsizey = arr.shape[1]
-
-        filter = tomocuda.mFilter(imsizex, imsizey, prjsize, size)
-        out = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
-
-        for step in range (prjsize):
-            im_noisecu=arr[step].astype(np.float32)
-            im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
-            im_noisecu = im_noisecu.flatten()
-
-            filter.setCuImage(im_noisecu)
-            filter.run2DFilter(size)
-            results = filter.retreive()
-            results=results.reshape(imsizey,imsizex)
-            out[step]=results
-    else:
-        out = tomopy.median_filter(arr, size)
-
-    return out
-
-def remove_outlier_GPU(arr, dif, size=3):
-    """
-    Remove high intensity bright spots from a 3D array along specified
-    dimension.
-
-    Parameters
-    ----------
-    arr : ndarray
-        Input array.
-    dif : float
-        Expected difference value between outlier value and
-        the median value of the array.
-    size : int
-        Size of the median filter.
-    axis : int, optional
-        Axis along which median filtering is performed.
-    ncore : int, optional
-        Number of cores that will be assigned to jobs.
-    out : ndarray, optional
-        Output array for result.  If same as arr, process will be done in-place.
-
-
-    Returns
-    -------
-    ndarray
-       Corrected array.
-    """
-    arr = dtype.as_float32(arr)
-    dif = np.float32(dif)
-
-    winAllow = [4,5,6,7,15]
-
-    if size in winAllow:
-        prjsize = arr.shape[0]
-        loffset = int(size/2)
-        roffset = int((size-1)/2)
-        imsizex =arr.shape[2] # image size for the input
-        imsizey = arr.shape[1]
-
-        filter = tomocuda.mFilter(imsizex, imsizey, prjsize, size)
-        out = np.zeros(shape=(prjsize,imsizey,imsizex), dtype=np.float32)
-
-        for step in range (prjsize):
-            im_noisecu=arr[step].astype(np.float32)
-            im_noisecu=np.lib.pad(im_noisecu, ((loffset, roffset),(loffset, roffset)), 'symmetric')
-            im_noisecu = im_noisecu.flatten()
-
-            filter.setCuImage(im_noisecu)
-            filter.run2DRemoveOutliner(size, dif)
-            results = filter.retreive()
-            results=results.reshape(imsizey,imsizex)
-            out[step]=results
-    else:
-        print("using cpu remove outlier")
-        out = tomopy.remove_outlier(arr, dif, size)
-
-    return out
-
-
 def rec_test(file_name, sino_start, sino_end, astra_method, extra_options, num_iter=1):
 
     print '\n#### Processing '+ file_name
@@ -218,7 +115,7 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
 
 
         start = timeit.default_timer()
-        resultcombine= median_filter_GPU(prj, medfilt_size)
+        resultcombine= tomocuda.median_filter_cuda(prj, medfilt_size)
         stop = timeit.default_timer()
         mdiff2= stop - start
         print("end gpu median filter", stop-start)
@@ -244,7 +141,7 @@ def rec_full(file_name, sino_start, sino_end, astra_method, extra_options, num_i
         print '\n start outlier remove'
         odiff = 20
         start = timeit.default_timer()
-        resultcombine = remove_outlier_GPU(prj, odiff, medfilt_size)
+        resultcombine = tomocuda.remove_outlier_cuda(prj, odiff, medfilt_size)
         stop = timeit.default_timer()
         rdiff2= stop - start
         print("end gpu outlier remove", stop-start)
