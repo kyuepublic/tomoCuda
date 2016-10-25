@@ -12,6 +12,6 @@ CUDA version of median_filter and outlier_removal for tomopy
 
 import tomocuda
 
-median_filter_cuda(arr, size)
+tomocuda.median_filter_cuda(arr, size)
 
-remove_outlier_cuda(arr, dif, size)
+tomocuda.remove_outlier_cuda(arr, dif, size)
