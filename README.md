@@ -6,7 +6,7 @@ CUDA version of median_filter and outlier_removal for tomopy
 
 1 download the source 
 
-2 python setup install
+2 go to the source code directory and issue the command "python setup install"
 
 # Usage:
 
