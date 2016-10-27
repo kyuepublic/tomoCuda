@@ -14,6 +14,10 @@ CUDA version of median_filter and outlier_removal for tomopy
  
  Cython
  
+ numpy
+ 
+ tomopy
+ 
 # Usage:
 
 import tomocuda
