@@ -118,7 +118,7 @@ setup(name='tomocuda',
       author='Ke Yue',
       version='0.0.1',
       description='Cuda accelerate version of tomoPy',
-      author_email='keeyue@gmail.com',
+      author_email='kyue@aps.anl.gov',
       ext_modules = [ext],
 
       # inject our custom trigger
