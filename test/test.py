@@ -46,7 +46,7 @@ def testOutlierRemoval():
     '''test with random array, loop outside with a 2d cuda kernel'''
     # prjsize is z, imsize is x, y.
 
-    size = 15 # window size for the filter
+    size = 9 # window size for the filter
     imsizex =2048 # image size for the input
     imsizey = 2048
     prjsize= 1
@@ -57,11 +57,11 @@ def testOutlierRemoval():
     diff = 100
 
     # create combined noise matrix 3D
-    for step in range (prjsize):
-        # im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
-        im_noise = np.random.rand(imsizey, imsizex)
+    for step in range (5, 5 + prjsize):
+        im_noise = np.arange( 10, imsizey*imsizex*step+10, step ).reshape(imsizey, imsizex)
+        # im_noise = np.random.rand(imsizey, imsizex)
         im_noise = im_noise.astype(np.float32)
-        combinedMed[step]=im_noise
+        combinedMed[step-5]=im_noise
 
     start = timeit.default_timer()
     resultscpu= tomopy.remove_outlier_cuda(combinedMed, diff, size=size)
@@ -70,7 +70,7 @@ def testOutlierRemoval():
     print("end cuda outlier removal", diff2)
 
     start = timeit.default_timer()
-    resultscuda = tomopy.remove_outlier(combinedMed, diff, size=size)
+    resultscuda = tomopy.remove_outlier(combinedMed, diff, size=size, ncore = 1)
     stop = timeit.default_timer()
     diff1 = stop - start
 
